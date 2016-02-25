@@ -5,8 +5,12 @@ import Data.Array
 data Direction = Horisontal | Vertical 
 data Ship = Ship5 Cord Cord | Ship4 Cord Cord | Ship3 Cord Cord  | Ship2 Cord Cord
 data Square = Empty | Alive | Dead deriving (Eq, Show)
+--data Names = Name1 | Name2
 type Board = [(Cord, Square)]
 type Cord = (Int,Int)
+--type Name1 = String
+--type Name2 = String
+
 
 
 
@@ -19,50 +23,55 @@ main = do
 
 play :: IO ()
 play = do
-		  inputName1
+
+		name1 <- inputName1
+		name2 <- inputName2
+		board <- boardSize
+		
+
+
+		putStrLn (name1 ++ name2)
 
 
 
 inputName1 :: IO String
 inputName1 = do 
 		  		putStrLn "What is the name of player 1?"
-				name <- getLine
-				return ("Hello " ++ name)
+				name1 <- getLine
+				return name1
+				
 
 inputName2 :: IO String
 inputName2 = do
 				putStrLn "What is the name of player 2?"
-				name <- getLine
-				return name 
+				name2 <- getLine
+				return name2
 
 
 boardSize :: IO Board
 boardSize = do 
-				putStrLn "How big do you want your board?"
+				putStrLn "How big do you want your board?\tWrite in the format: (x,y)"
 				cord <- getLine
 				return (makeBoard (read cord))
 
 menu :: IO ()
 menu = do
 		putStrLn "Welcome to our game!\n"
-		putStrLn "1. Play game\n2. Rules"
+		putStrLn "1. Play game\n2. Rules\n3. Quit"
 		input <- getLine
 		if (input == "1") 
-			then play --här ska play vara
+			then play    --putStrLn "lets play" --play --här ska play vara
 			else if (input == "2") 
 				then rules -- här ska rules vara
-				else menu
+				else if (input == "3")
+					then return ()
+					else menu
 
 rules :: IO ()
 rules = do 
 		putStrLn "Dont play yourself!"
 		
 	
-placeShip2:: IO ()
-placeShip2 = do
-		     name <- inputName1
-		     putStrLn (name ++ ", Place your Ships!")
-
 victory :: Board -> Bool
 victory b = if (length (filter (== Alive) (sortAlive b))) == 0 then True else False
 
@@ -87,7 +96,7 @@ makeBoardAux (_,0) = []
 makeBoardAux (0,_) = []
 makeBoardAux (x,y) = ((x,y), Empty) : makeBoardAux (x, (y-1)) {-++ makeBoardAux (x, (y-1)) -}
 
-makeBoard :: Cord -> Board 
+makeBoard :: Cord -> Board
 makeBoard (_,0)  = []
 makeBoard (0,_)  = []
 makeBoard (x,y)  = makeBoard ((x-1),y) ++ reverse (makeBoardAux (x,y)) 
