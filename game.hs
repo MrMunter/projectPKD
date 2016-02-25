@@ -1,12 +1,84 @@
 import Data.List 
 import Data.Array
 
+
 data Direction = Horisontal | Vertical 
 data Ship = Ship5 Cord Cord | Ship4 Cord Cord | Ship3 Cord Cord  | Ship2 Cord Cord
-data Square = Empty | Alive | Dead deriving (Show)
+data Square = Empty | Alive | Dead deriving (Eq, Show)
 type Board = [(Cord, Square)]
 type Cord = (Int,Int)
 
+
+
+
+main :: IO ()
+main = do 
+		menu
+		
+		
+
+play :: IO ()
+play = do
+		  inputName1
+
+
+
+inputName1 :: IO String
+inputName1 = do 
+		  		putStrLn "What is the name of player 1?"
+				name <- getLine
+				return ("Hello " ++ name)
+
+inputName2 :: IO String
+inputName2 = do
+				putStrLn "What is the name of player 2?"
+				name <- getLine
+				return name 
+
+
+boardSize :: IO Board
+boardSize = do 
+				putStrLn "How big do you want your board?"
+				cord <- getLine
+				return (makeBoard (read cord))
+
+menu :: IO ()
+menu = do
+		putStrLn "Welcome to our game!\n"
+		putStrLn "1. Play game\n2. Rules"
+		input <- getLine
+		if (input == "1") 
+			then play --här ska play vara
+			else if (input == "2") 
+				then rules -- här ska rules vara
+				else menu
+
+rules :: IO ()
+rules = do 
+		putStrLn "Dont play yourself!"
+		
+	
+placeShip2:: IO ()
+placeShip2 = do
+		     name <- inputName1
+		     putStrLn (name ++ ", Place your Ships!")
+
+victory :: Board -> Bool
+victory b = if (length (filter (== Alive) (sortAlive b))) == 0 then True else False
+
+findCord :: Board -> Cord -> Board ->Board
+findCord (x:xs) (a,b) aux 
+	| (fst x) == (a,b) = xs
+	| otherwise = (x:aux) ++ (findCord xs (a,b) aux)
+
+attack :: Board -> Cord -> Board
+attack (x:xs) (a,b)
+	| (snd x) == Empty = (x:xs)
+	| otherwise = ((a,b), Dead) : (findCord (x:xs) (a,b) [])
+
+sortAlive :: Board -> [Square]
+sortAlive [] = []
+sortAlive (b:bs) = ((snd b) : sortAlive bs)
 
 
 makeBoardAux :: Cord -> Board
