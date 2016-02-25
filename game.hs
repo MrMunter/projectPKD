@@ -75,15 +75,18 @@ rules = do
 victory :: Board -> Bool
 victory b = if (length (filter (== Alive) (sortAlive b))) == 0 then True else False
 
-findCord :: Board -> Cord -> Board ->Board
+-- Removes a element from the board
+{-findCord :: Board -> Cord -> Board ->Board
 findCord (x:xs) (a,b) aux 
 	| (fst x) == (a,b) = xs
-	| otherwise = (x:aux) ++ (findCord xs (a,b) aux)
+	| otherwise = (x:aux) ++ (findCord xs (a,b) aux)  -}
 
 attack :: Board -> Cord -> Board
 attack (x:xs) (a,b)
-	| (snd x) == Empty = (x:xs)
-	| otherwise = ((a,b), Dead) : (findCord (x:xs) (a,b) [])
+	| getCord (a,b) (x:xs) == False = (x:xs)
+	| (a,b) == (fst x) && (snd x) == Empty = (x:xs)
+	| (a,b) == (fst x) && (snd x) == Alive = ((a,b), Dead) : xs
+	| otherwise = (x : attack xs (a,b))
 
 sortAlive :: Board -> [Square]
 sortAlive [] = []
@@ -153,3 +156,9 @@ getCord (x,y) [] = False
 getCord (x,y) (b:bs) 
 	| (x,y) == fst b = True 
 	| otherwise = getCord (x,y) bs
+	
+validShip :: Ship -> Board -> Bool
+validShip (Ship2 x c)  b = if (getCord x b) == True && (getCord c b) == True then True else False 
+validShip (Ship3 x c)  b = if (getCord x b) == True && (getCord c b) == True then True else False 
+validShip (Ship4 x c)  b = if (getCord x b) == True && (getCord c b) == True then True else False 
+validShip (Ship5 x c)  b = if (getCord x b) == True && (getCord c b) == True then True else False 
