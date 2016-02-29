@@ -1,5 +1,6 @@
 import Data.List 
 import Data.Array
+import Test.HUnit
 
 
 data Direction = Horisontal | Vertical 
@@ -215,6 +216,67 @@ cpbord boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattlegroun
 
 		printShip :: Square -> IO()
 		printShip square 
-			|square == Dead = putStr "|x|"
-			|square == Miss = putStr "|#|"
-			|otherwise = putStr "|_|"
+			|square == Dead  = putStr "|x|"
+			|square == Miss  = putStr "|#|"
+			|otherwise       = putStr "|_|"
+
+validShot :: Board -> Cord -> Bool
+validShot (x:xs) (a,b) 
+	| (getCord (a,b) (x:xs)) == False = False
+	| (snd (pickCord (x:xs) (a,b))) == Dead = False
+	| (snd (pickCord (x:xs) (a,b))) == Miss = False  
+	| otherwise = True 
+		where 
+			pickCord (x:xs) (a,b) 
+				| (fst x) == (a,b) = x 
+				| otherwise = pickCord xs (a,b)
+
+
+--------------------------------------------------------------
+----TEST CASES
+
+
+---- play
+--test1 = TestCase $ assertEqual "play"
+--            (Just 7) (Table.lookup (characterCounts "this is an example of a huffman tree") ' ')
+
+---- codeTable
+---- while the precise code for ' ' may vary, its length (for the given example string) should always be 3 bits
+--test2 = TestCase $ assertEqual "codeTable"
+--            3 (maybe (-1) length (Table.lookup (codeTable (huffmanTree (characterCounts "this is an example of a huffman tree"))) ' '))
+
+---- compress
+---- while the precise code for the given example string may vary, its length should always be 135 bits
+--test3 = TestCase $ assertEqual "compress"
+--            135 (length (snd (compress "this is an example of a huffman tree")))
+
+---- decompress
+--test4 =
+--    let s = "this is an example of a huffman tree"
+--    in
+--      TestCase $ assertEqual ("decompress \"" ++ s ++ "\"")
+--        s (let (h, bits) = compress s in decompress h bits)
+
+--test5 =
+--    let s = "xxx"
+--    in
+--      TestCase $ assertEqual ("decompress \"" ++ s ++ "\"")
+--        s (let (h, bits) = compress s in decompress h bits)
+
+--test6 =
+--    let s = ""
+--    in
+--      TestCase $ assertEqual ("decompress \"" ++ s ++ "\"")
+--        s (let (h, bits) = compress s in decompress h bits)
+
+---- for running all the tests
+--runtests = runTestTT $ TestList [test1, test2, test3, test4, test5, test6]
+
+
+
+
+
+
+
+
+
