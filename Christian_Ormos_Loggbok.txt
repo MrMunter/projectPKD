@@ -1,0 +1,18 @@
+Loggbok – Christian Ormos
+
+•	15/02 2h Diskussion med projektmedlemmarna. Idéer kring vad projektet skulle handla om disskuterades.
+•	16/02 1h Möte 2h Top-down Design. På papper.
+•	17/02 2h Mer förberedelse angående Top-down Design.
+•	18/02 1h Möte 2h research angående GUI i haskell. Kommer förmodligen använda GTK.
+•	19/02 5h Började programmering. Klar spelplan och andra småfunktioner.
+•	21/02 2h Fortsatt planering av projekt. Idébollning mellan medlemmarna.
+•	22/02 1h Github. Fixade ett repo och blev mer bekväm med Git som verktyg
+•	23/02 5h Programmering för att kunna visa upp något tills på torsdag då vi bokat möte.
+•	24/02 3h Läst på angående IO i haskell samt börjat programmera IO-funktioner.
+•	25/02 0,5h möte med handledaren Henrik. Han visade hur abstrakta datatyper ska hanteras.
+•	25/02 6h programmering. Läste på om AI i haskell och började skriva på en algoritm som ska ha en två modes. "hunt" och "target"
+•	26/02 5h En fungerande spelplan är nu implementerad. Jag arbetar på en funktion som ska kunna generera ett slumpat bräde till AI.
+•	27/02 6h Fungerande spel. Dock så vet jag inte om vi kommer bli klara med ett grafiskt gränssnitt i tid. Vi fokuserar på att försöka bli klara med AI.
+•	28/02 6h Spelplan som kan skrivas ut i ASCII. Skrev och implementerade en meny.
+•	29/02 8h Rapporten börjar ta form. coding convention och buggsökning.
+
