@@ -47,6 +47,39 @@ play = do
 						else game (attack b1 (read cord2)) (attack b2 (read cord)) n1 n2 
 
 
+        
+rand :: IO ()
+rand = do
+              a <- randomRIO (1,9)  :: IO Int
+              b <- randomRIO (1,10) :: IO Int
+
+              c <- randomRIO (1,8)  :: IO Int
+              d <- randomRIO (1,10) :: IO Int
+
+              e <- randomRIO (1,7)  :: IO Int
+              f <- randomRIO (1,10) :: IO Int
+
+              g <- randomRIO (1,6)  :: IO Int
+              h <- randomRIO (1,10) :: IO Int
+
+              print (a,b,c,d,e,f,g,h)
+
+randomBoardGen :: IO Board
+randomBoardGen = do
+              
+              randomCord2X <- randomRIO (1,9)  :: IO Int
+              randomCord2Y <- randomRIO (1,10) :: IO Int
+
+              randomCord3X <- randomRIO (1,8)  :: IO Int
+              randomCord3Y <- randomRIO (1,10) :: IO Int
+
+              randomCord4X <- randomRIO (1,7)  :: IO Int
+              randomCord4Y <- randomRIO (1,10) :: IO Int
+
+              randomCord5X <- randomRIO (1,6)  :: IO Int
+              randomCord5Y <- randomRIO (1,10) :: IO Int
+              
+              if ((length (filter (\x -> snd x == Alive) (placeShip (Ship5 ((randomCord5X, randomCord5Y), (randomCord5X,(randomCord5Y+4)))) (placeShip (Ship4 ((randomCord4X, randomCord4Y), (randomCord4X,(randomCord4Y+3)))) (placeShip (Ship3 ((randomCord3X, randomCord3Y), (randomCord3X,(randomCord3Y+2)))) (placeShip (Ship2 ((randomCord2X, randomCord2Y), (randomCord2X,(randomCord2Y+1)))) (makeBoard(10,10))))))))) == 14 then return (placeShip (Ship5 ((randomCord5X, randomCord5Y), (randomCord5X,(randomCord5Y+4)))) (placeShip (Ship4 ((randomCord4X, randomCord4Y), (randomCord4X,(randomCord4Y+3)))) (placeShip (Ship3 ((randomCord3X, randomCord3Y), (randomCord3X,(randomCord3Y+2)))) (placeShip (Ship2 ((randomCord2X, randomCord2Y), (randomCord2X,(randomCord2Y+1)))) (makeBoard(10,10)))))) else randomBoardGen
  
 attackIO :: Board -> IO Board 
 attackIO board = return board 
