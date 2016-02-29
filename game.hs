@@ -46,7 +46,30 @@ play = do
 							then do putStrLn (n2 ++ " Win\n") >> main
 						else game (attack b1 (read cord2)) (attack b2 (read cord)) n1 n2 
 
+playAI :: IO ()
+playAI = do 
 
+      name1  <- inputName1
+      board1 <- boardSize1
+      board2 <- randomBoardGen
+
+
+      game board1 board2 name1
+        where 
+          game b1 b2 n1 = do 
+              putStrLn (n1 ++ " Attack")
+              cord <- getLine
+              cpbord (attack b2 (read cord)) 
+              if victory (attack b2 (read cord))
+                then do putStrLn (n1 ++ " win\n") >> main            
+              else do
+              putStrLn ("Computer Attack") 
+              computerCordX <- randomRIO (1,10)
+              computerCordY <- randomRIO (1,10)
+              cpbord (attack b1 (computerCordX, computerCordY)) 
+              if victory (attack b1 (computerCordX, computerCordY)) 
+                then do putStrLn ("Computer Wins\n") >> main
+              else game (attack b1 (computerCordX, computerCordY)) (attack b2 (read cord)) n1
         
 rand :: IO ()
 rand = do
@@ -67,20 +90,40 @@ rand = do
 randomBoardGen :: IO Board
 randomBoardGen = do
               
-              randomCord2X <- randomRIO (1,9)  :: IO Int
-              randomCord2Y <- randomRIO (1,10) :: IO Int
+              -- FOR HORIZONTAL SHIPS -- 
+              randomCord2X <- randomRIO (1,9)    :: IO Int
+              randomCord2Y <- randomRIO (1,10)   :: IO Int
 
-              randomCord3X <- randomRIO (1,8)  :: IO Int
-              randomCord3Y <- randomRIO (1,10) :: IO Int
+              randomCord3X <- randomRIO (1,8)    :: IO Int
+              randomCord3Y <- randomRIO (1,10)   :: IO Int
 
-              randomCord4X <- randomRIO (1,7)  :: IO Int
-              randomCord4Y <- randomRIO (1,10) :: IO Int
+              randomCord4X <- randomRIO (1,7)    :: IO Int
+              randomCord4Y <- randomRIO (1,10)   :: IO Int
 
-              randomCord5X <- randomRIO (1,6)  :: IO Int
-              randomCord5Y <- randomRIO (1,10) :: IO Int
+              randomCord5X <- randomRIO (1,6)    :: IO Int
+              randomCord5Y <- randomRIO (1,10)   :: IO Int
+
+              -- FOR VERTICAL SHIPS -- 
+              vrandomCord2X <- randomRIO (1,10)  :: IO Int
+              vrandomCord2Y <- randomRIO (1,9)   :: IO Int
+
+              vrandomCord3X <- randomRIO (1,10)  :: IO Int
+              vrandomCord3Y <- randomRIO (1,8)   :: IO Int
+
+              vrandomCord4X <- randomRIO (1,10)  :: IO Int
+              vrandomCord4Y <- randomRIO (1,7)   :: IO Int
+
+              vrandomCord5X <- randomRIO (1,10)  :: IO Int
+              vrandomCord5Y <- randomRIO (1,6)   :: IO Int
+
+
+              caseGen       <- randomRIO (1,2)  :: IO Int
               
-              if ((length (filter (\x -> snd x == Alive) (placeShip (Ship5 ((randomCord5X, randomCord5Y), (randomCord5X,(randomCord5Y+4)))) (placeShip (Ship4 ((randomCord4X, randomCord4Y), (randomCord4X,(randomCord4Y+3)))) (placeShip (Ship3 ((randomCord3X, randomCord3Y), (randomCord3X,(randomCord3Y+2)))) (placeShip (Ship2 ((randomCord2X, randomCord2Y), (randomCord2X,(randomCord2Y+1)))) (makeBoard(10,10))))))))) == 14 then return (placeShip (Ship5 ((randomCord5X, randomCord5Y), (randomCord5X,(randomCord5Y+4)))) (placeShip (Ship4 ((randomCord4X, randomCord4Y), (randomCord4X,(randomCord4Y+3)))) (placeShip (Ship3 ((randomCord3X, randomCord3Y), (randomCord3X,(randomCord3Y+2)))) (placeShip (Ship2 ((randomCord2X, randomCord2Y), (randomCord2X,(randomCord2Y+1)))) (makeBoard(10,10)))))) else randomBoardGen
- 
+              if caseGen == 1 then do              
+                    if ((length (filter (\x -> snd x == Alive) (placeShip (Ship5 ((randomCord5X, randomCord5Y), (randomCord5X,(randomCord5Y+4)))) (placeShip (Ship4 ((randomCord4X, randomCord4Y), (randomCord4X,(randomCord4Y+3)))) (placeShip (Ship3 ((randomCord3X, randomCord3Y), (randomCord3X,(randomCord3Y+2)))) (placeShip (Ship2 ((randomCord2X, randomCord2Y), (randomCord2X,(randomCord2Y+1)))) (makeBoard(10,10))))))))) == 14 then return (placeShip (Ship5 ((randomCord5X, randomCord5Y), (randomCord5X,(randomCord5Y+4)))) (placeShip (Ship4 ((randomCord4X, randomCord4Y), (randomCord4X,(randomCord4Y+3)))) (placeShip (Ship3 ((randomCord3X, randomCord3Y), (randomCord3X,(randomCord3Y+2)))) (placeShip (Ship2 ((randomCord2X, randomCord2Y), (randomCord2X,(randomCord2Y+1)))) (makeBoard(10,10)))))) else randomBoardGen
+              else 
+                     if ((length (filter (\x -> snd x == Alive) (placeShip (Ship5 ((vrandomCord5X, vrandomCord5Y), ((vrandomCord5X+4),vrandomCord5Y))) (placeShip (Ship4 ((vrandomCord4X, vrandomCord4Y), ((vrandomCord4X+3),vrandomCord4Y))) (placeShip (Ship3 ((vrandomCord3X, vrandomCord3Y), ((vrandomCord3X+2),vrandomCord3Y))) (placeShip (Ship2 ((vrandomCord2X, vrandomCord2Y), ((vrandomCord2X+1),vrandomCord2Y))) (makeBoard(10,10))))))))) == 14 then return (placeShip (Ship5 ((vrandomCord5X, vrandomCord5Y), ((vrandomCord5X+4),vrandomCord5Y))) (placeShip (Ship4 ((vrandomCord4X, vrandomCord4Y), ((vrandomCord4X+3),vrandomCord4Y))) (placeShip (Ship3 ((vrandomCord3X, vrandomCord3Y), ((vrandomCord3X+2),vrandomCord3Y))) (placeShip (Ship2 ((vrandomCord2X, vrandomCord2Y), ((vrandomCord2X+1),vrandomCord2Y))) (makeBoard(10,10)))))) else randomBoardGen
+
 attackIO :: Board -> IO Board 
 attackIO board = return board 
 
@@ -130,16 +173,18 @@ boardSize2 = do
 
 menu :: IO ()
 menu = do
-		putStrLn "Welcome to our game!\n"
-		putStrLn "1. Play game\n2. Rules\n3. Quit"
-		input <- getLine
-		if (input == "1") 
-			then play    --putStrLn "lets play" --play --här ska play vara
-			else if (input == "2") 
-				then rules -- här ska rules vara
-				else if (input == "3")
-					then return ()
-					else menu
+    putStrLn "\n\n\n\n\n\n\n\n\n\n\n\n~~~~~~~~~~~BATTLESHIPS~~~~~~~~~~~\n"
+    putStrLn "1. Play with a friend\n2. Play against the computer\n3. Read rules\n4. Quit\n\n"
+    input <- getLine
+    if (input == "1") 
+      then play    --putStrLn "lets play" --play --här ska play vara
+      else if (input == "2") 
+        then  playAI -- här ska rules vara
+        else if (input == "3")
+          then rules
+          else if (input == "4")
+          then return()
+            else menu
  
 rules :: IO ()
 rules = do 
