@@ -1,0 +1,1 @@
+Rules: Each player will play on a 10x10 grid and place their ships of lenght 2, 3, 4 and 5. Ships may touch each other but not overlap. You can place the ships vertically or horizontally. To attack the enemys board type the desired coordinates when it is your turn. hit = x and miss = #
