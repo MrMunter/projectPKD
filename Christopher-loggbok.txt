@@ -1,0 +1,47 @@
+Loggbok Christopher Ekfeldt
+
+
+15/2 (2h)
+Diskussion angående projektet innan möte.
+
+16/2 (2h) 
+Förberedelser med top down design 
+
+17/2 (2h)
+Fortsättning med Top down designen
+
+18/02 (1h)
+Möte 
+
+19/02 (5h) 
+Uppstart, programmering. (Spelplan definierad och diverse småfunktioner.) 
+
+21/02 (2h)
+Brainstorming med gruppen. Fortsatt planerat hurvida vårt projekt ska se ut. 
+
+22/02 (1h)
+Gjort användere till Github, skapat delat dokument med vår supervisor.
+
+23/02 (5h)
+Programmering 
+
+24/02 (4h)
+Research IO + programmering IO funktioner
+
+25/02 (7h)
+Möte + Programmering 
+
+26/02 (5h)
+Började skelett i rapport + kodat.
+
+27/02 (7h)
+Fixat Multiplayer mode, fortfarande mycket att göra
+
+28/02 (5h)
+ASCII plan byggd.
+
+29/02 (7h)
+Coding convention + funktioner, fixat problem
+
+01/03 (10h) 
+Möte med Dave Clarke, rapportskrivande, mer coding convention, fixat kod.
