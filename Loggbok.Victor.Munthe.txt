@@ -1,0 +1,46 @@
+Loggbok Victor Munthe
+
+
+15/02 
+2h Diskussion angående projektet innan möte.
+
+16/02 
+1h Möte
+2h förberedelse (top down design) 
+
+17/02 
+2h forts. förberedelse (top down design) 
+
+18/02
+1h Möte 
+
+19/02 
+5h Uppstart, programmering. Spelplan definierad och diverse småfunktioner. 
+
+21/02
+2h Brainstorming. Fortsatt planerat projekt. 
+
+22/02 
+1h Github
+
+23/02
+5h programmering 
+
+24/02
+4h Research IO + programmering IO funktioner
+
+25/02
+0.5h Möte
+6h programmering 
+
+26/02 
+5h Hjälpfunktioner för att förhindra mänskliga fel i IO, inte klara.
+
+27/02 
+7h Idag fungerar spelet i multiplayer mode. Många småfel som fortfarande behöver lösas.
+
+28/02 
+5h Vi valde att bygga en spelplan i ASCII istället för grafiskt. Den är nu klar.
+
+29/02
+7h Mestadels coding convention men fortsatta även med hjälpfunktionerna.
