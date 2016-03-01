@@ -53,17 +53,17 @@ main = do
 
 menu :: IO ()
 menu = do
-		putStrLn "Welcome to our game!\n"
-		putStrLn "1. Play game\n2. Rules\n3. Quit\n4. Multiplayer"
+		putStrLn "\nWelcome to Battle Ships!\n"
+		putStrLn "1. Single player\n2. Multiplayer\n3. Rules\n4. Quit\n"
 		input <- getLine
 		if (input == "1") 
-			then play    --putStrLn "lets play" --play --här ska play vara
+			then playAI    --putStrLn "lets play" --play --här ska play vara
 			else if (input == "2") 
-				then rules -- här ska rules vara
+				then play -- här ska rules vara
 				else if (input == "3")
-					then return ()
+					then rules
 						else if (input == "4")
-							then playAI
+							then return () 
 							else menu
                     
 {- play
@@ -186,7 +186,7 @@ randomBoardGen = do
 
 rules :: IO ()
 rules = do 
-		putStrLn "Dont play yourself!\n"
+		putStrLn "\nDont play yourself!\n"
 		menu 
 
 
@@ -228,13 +228,13 @@ inputName2 = do
 
 boardSize1 :: IO Board
 boardSize1 = do 
-				putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
+				putStrLn "Place your fishing boat, 2 squares. Format ((x1,y1),(x2,y2))"
 				cords <- getLine
-				putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
+				putStrLn "Place your submarine, 3 squares. Format ((x1,y1),(x2,y2))"
 				cords2 <- getLine
-				putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
+				putStrLn "Place your battleship, 4 squares. Format ((x1,y1),(x2,y2))"
 				cords3 <- getLine
-				putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
+				putStrLn "Place your carrier, 5 squares. Format ((x1,y1),(x2,y2))"
 				cords4 <- getLine
 				return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10)))))))
 
@@ -247,13 +247,13 @@ boardSize1 = do
 -}
 boardSize2 :: IO Board
 boardSize2 = do 
-				putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
+				putStrLn "Place your fishing boat, 2 squares. Format ((x1,y1),(x2,y2))"
 				cords <- getLine
-				putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
+				putStrLn "Place your submarine, 3 squares. Format ((x1,y1),(x2,y2))"
 				cords2 <- getLine
-				putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
+				putStrLn "Place your battleship, 4 squares. Format ((x1,y1),(x2,y2))"
 				cords3 <- getLine
-				putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
+				putStrLn "Place your carrier, 5 squares. Format ((x1,y1),(x2,y2))"
 				cords4 <- getLine
 				return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10)))))))
 
@@ -543,21 +543,5 @@ validShot (x:xs) (a,b)
 
 ---- for running all the tests
 --runtests = runTestTT $ TestList [test1, test2, test3, test4, test5, test6]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
