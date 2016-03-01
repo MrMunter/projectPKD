@@ -1,18 +1,19 @@
-Loggbok – Christian Ormos
+Loggbok â€“ Christian Ormos
 
-•	15/02 2h Diskussion med projektmedlemmarna. Idéer kring vad projektet skulle handla om disskuterades.
-•	16/02 1h Möte 2h Top-down Design. På papper.
-•	17/02 2h Mer förberedelse angående Top-down Design.
-•	18/02 1h Möte 2h research angående GUI i haskell. Kommer förmodligen använda GTK.
-•	19/02 5h Började programmering. Klar spelplan och andra småfunktioner.
-•	21/02 2h Fortsatt planering av projekt. Idébollning mellan medlemmarna.
-•	22/02 1h Github. Fixade ett repo och blev mer bekväm med Git som verktyg
-•	23/02 5h Programmering för att kunna visa upp något tills på torsdag då vi bokat möte.
-•	24/02 3h Läst på angående IO i haskell samt börjat programmera IO-funktioner.
-•	25/02 0,5h möte med handledaren Henrik. Han visade hur abstrakta datatyper ska hanteras.
-•	25/02 6h programmering. Läste på om AI i haskell och började skriva på en algoritm som ska ha en två modes. "hunt" och "target"
-•	26/02 5h En fungerande spelplan är nu implementerad. Jag arbetar på en funktion som ska kunna generera ett slumpat bräde till AI.
-•	27/02 6h Fungerande spel. Dock så vet jag inte om vi kommer bli klara med ett grafiskt gränssnitt i tid. Vi fokuserar på att försöka bli klara med AI.
-•	28/02 6h Spelplan som kan skrivas ut i ASCII. Skrev och implementerade en meny.
-•	29/02 8h Rapporten börjar ta form. coding convention och buggsökning.
-
+â€¢	15/02 2h Diskussion med projektmedlemmarna. IdÃ©er kring vad projektet skulle handla om disskuterades.
+â€¢	16/02 1h MÃ¶te 2h Top-down Design. PÃ¥ papper.
+â€¢	17/02 2h Mer fÃ¶rberedelse angÃ¥ende Top-down Design.
+â€¢	18/02 1h MÃ¶te 2h research angÃ¥ende GUI i haskell. Kommer fÃ¶rmodligen anvÃ¤nda GTK.
+â€¢	19/02 5h BÃ¶rjade programmering. Klar spelplan och andra smÃ¥funktioner.
+â€¢	21/02 2h Fortsatt planering av projekt. IdÃ©bollning mellan medlemmarna.
+â€¢	22/02 1h Github. Fixade ett repo och blev mer bekvÃ¤m med Git som verktyg
+â€¢	23/02 5h Programmering fÃ¶r att kunna visa upp nÃ¥got tills pÃ¥ torsdag dÃ¥ vi bokat mÃ¶te.
+â€¢	24/02 3h LÃ¤st pÃ¥ angÃ¥ende IO i haskell samt bÃ¶rjat programmera IO-funktioner.
+â€¢	25/02 1h mÃ¶te med handledaren Henrik. Han visade hur abstrakta datatyper ska hanteras.
+â€¢	25/02 6h programmering. LÃ¤ste pÃ¥ om AI i haskell och bÃ¶rjade skriva pÃ¥ en algoritm som ska ha en tvÃ¥ modes. "hunt" och "target"
+â€¢	26/02 5h En fungerande spelplan Ã¤r nu implementerad. Jag arbetar pÃ¥ en funktion som ska kunna generera ett slumpat brÃ¤de till AI.
+â€¢	27/02 6h Fungerande spel. Dock sÃ¥ vet jag inte om vi kommer bli klara med ett grafiskt grÃ¤nssnitt i tid. Vi fokuserar pÃ¥ att fÃ¶rsÃ¶ka              bli klara med AI.
+â€¢	28/02 6h Spelplan som kan skrivas ut i ASCII. Skrev och implementerade en meny.
+â€¢	29/02 8h Rapporten bÃ¶rjar ta form. coding convention och buggsÃ¶kning.
+â€¢	01/03 1h MÃ¶te med Dave Clark angÃ¥ende projektet.
+â€¢	01/03 8h Programmerande. Skrivit test cases till funktioner samt bugfix. Skrev till fler funktioner som hanterar exceptions. Rapportskr            ivning och coding convention.
