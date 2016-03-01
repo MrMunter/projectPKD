@@ -2,6 +2,7 @@ import Data.List
 import Data.Array
 import Test.HUnit
 import System.Random
+import Control.Monad
 
 
 {- REPRESENTATION CONVENTION: ... description of how the datatype represents data ...
@@ -40,31 +41,31 @@ type BoardSize = (Int, Int)
 
 main :: IO ()
 main = do 
-		menu
-		
+    menu
+    
 {- menu
    PURPOSE:  ... high level description of purpose of function
    PRE:  ... pre-condition on the arguments ...
    POST: ... post-condition on the result, in terms of the arguments ...
    SIDE EFFECTS: ... if any, including exceptions ...
    EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
--}	
+-}  
 
 
 menu :: IO ()
 menu = do
-		putStrLn "\nWelcome to Battle Ships!\n"
-		putStrLn "1. Single player\n2. Multiplayer\n3. Rules\n4. Quit\n"
-		input <- getLine
-		if (input == "1") 
-			then playAI    --putStrLn "lets play" --play --här ska play vara
-			else if (input == "2") 
-				then play -- här ska rules vara
-				else if (input == "3")
-					then rules
-						else if (input == "4")
-							then return () 
-							else menu
+    putStrLn "\n~~~~~~~~~~~BATTLESHIPS~~~~~~~~~~~\n"
+    putStrLn "1. Play with a friend\n2. Play against the computer\n3. Read rules\n4. Quit\n\n"
+    input <- getLine
+    if (input == "1") 
+      then play    --putStrLn "lets play" --play --här ska play vara
+      else if (input == "2") 
+        then  playAI -- här ska rules vara
+        else if (input == "3")
+          then rules
+          else if (input == "4")
+          then return()
+            else menu
                     
 {- play
    PURPOSE:  ... high level description of purpose of function
@@ -77,26 +78,33 @@ menu = do
 play :: IO ()
 play = do
 
-		name1 <- inputName1
-		name2 <- inputName2
-		board1 <- boardSize1
-		board2 <- boardSize2
-		game board1 board2 name1 name2
-			where 
-				game b1 b2 n1 n2 = do 
-						putStrLn (n1 ++ " attack 1 coordinate. (x,y)")
-						cord <- getLine
-						printBoard (attack b2 (read cord)) 
-						if victory (attack b2 (read cord))
-							then do putStrLn (n1 ++ " win\n") >> main						 
-						else do
-						putStrLn (n2 ++ " attack 1 coordinate. (x,y)") 
-						cord2 <- getLine
-						printBoard (attack b1 (read cord2)) 
-						if victory (attack b1 (read cord2)) 
-							then do putStrLn (n2 ++ " Win\n") >> main
-						else game (attack b1 (read cord2)) (attack b2 (read cord)) n1 n2 
-
+    name1 <- inputName1
+    name2 <- inputName2
+    putStrLn (name1 ++ " it's your turn to place your ships")
+    board1 <- boardSize1
+    putStrLn (name2 ++ " it's your turn to place your ships")
+    board2 <- boardSize2
+    game board1 board2 name1 name2
+      where 
+        game b1 b2 n1 n2 = do 
+            putStrLn (n1 ++ " , it's your turn to attack!")
+            cord <- getLine
+            if cord == "Quit" || cord == "quit" then do main else if elem cord (map show (range ((1,1),(10,10)))) /= True then putStrLn "Invalid move, please try again!" >> game b1 b2 n1 n2
+              else do
+                putStrLn ("\n        " ++ n2 ++ "'s board") >> printBoard (attack b2 (read cord)) 
+                if victory (attack b2 (read cord))
+                  then do putStrLn (n1 ++ " win\n") >> main            
+                else game2 b1 n2 cord
+                  where
+                    game2 b1 n2 cord = do
+                      putStrLn (n2 ++ ", it's your turn to attack!") 
+                      cord2 <- getLine
+                      if cord2 == "Quit" || cord2 == "quit" then do main else if elem cord2 (map show (range ((1,1),(10,10)))) /= True then putStrLn "Invalid move, please try again!" >> game2 b1 n2 cord
+                        else do
+                          putStrLn ("\n        " ++ n1 ++ "'s board") >> printBoard (attack b1 (read cord2)) 
+                          if victory (attack b1 (read cord2)) 
+                            then do putStrLn (n2 ++ " Win\n") >> main
+                          else game (attack b1 (read cord2)) (attack b2 (read cord)) n1 n2 
 
 playAI :: IO ()
 playAI = do 
@@ -109,20 +117,24 @@ playAI = do
       game board1 board2 name1
         where 
           game b1 b2 n1 = do 
-              putStrLn (n1 ++ " Attack")
+              putStrLn (n1 ++ ", it's your turn to attack!\nIf you want to see the Computers board before making your move, type Show")
               cord <- getLine
-              printBoard (attack b2 (read cord)) 
-              if victory (attack b2 (read cord))
-                then do putStrLn (n1 ++ " win\n") >> main            
-              else do
-              putStrLn ("Computer Attack") 
-              computerCordX <- randomRIO (1,10)
-              computerCordY <- randomRIO (1,10)
-              printBoard (attack b1 (computerCordX, computerCordY)) 
-              if victory (attack b1 (computerCordX, computerCordY)) 
-                then do putStrLn ("Computer Wins\n") >> main
-              else game (attack b1 (computerCordX, computerCordY)) (attack b2 (read cord)) n1
-        
+              if cord == "Show" || cord == "show" then do printBoard b1 >> game b1 b2 n1 else 
+                if cord == "Quit" || cord == "quit" then do main else if elem cord (map show (range ((1,1),(10,10)))) /= True then putStrLn "Invalid move, please try again!" >> game b1 b2 n1
+                  else do
+                    putStrLn ("Computers Board")
+                    printBoard (attack b2 (read cord)) 
+                    if victory (attack b2 (read cord))
+                      then do putStrLn (n1 ++ " win\n") >> main            
+                    else do
+                      putStrLn ("Computer Attack") 
+                      computerCordX <- randomRIO (1,10)
+                      computerCordY <- randomRIO (1,10)
+                      putStrLn "Computer's Board"
+                      if victory (attack b1 (computerCordX, computerCordY)) 
+                        then do putStrLn ("Computer Wins\n") >> printBoard (attack b1 (computerCordX, computerCordY)) >> main
+                        else game (attack b1 (computerCordX, computerCordY)) (attack b2 (read cord)) n1
+          
 rand :: IO ()
 rand = do
               a <- randomRIO (1,9)  :: IO Int
@@ -186,8 +198,10 @@ randomBoardGen = do
 
 rules :: IO ()
 rules = do 
-		putStrLn "\nDont play yourself!\n"
-		menu 
+         
+         contents <- readFile "rulesGame.txt"
+         print contents 
+         menu 
 
 
 {- inputName1
@@ -200,9 +214,9 @@ rules = do
 
 inputName1 :: IO String
 inputName1 = do 
-		  		putStrLn "What is the name of player 1?"
-				name1 <- getLine
-				return name1
+          putStrLn "What is the name of player 1?"
+          name1 <- getLine
+          return name1
                 
 {- inputName2
    PURPOSE:  ... high level description of purpose of function
@@ -210,13 +224,13 @@ inputName1 = do
    POST: ... post-condition on the result, in terms of the arguments ...
    SIDE EFFECTS: ... if any, including exceptions ...
    EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
--}				
+-}        
 
 inputName2 :: IO String
 inputName2 = do
-				putStrLn "What is the name of player 2?"
-				name2 <- getLine
-				return name2
+        putStrLn "What is the name of player 2?"
+        name2 <- getLine
+        return name2
                 
 {- boardSize1
    PURPOSE:  ... high level description of purpose of function
@@ -228,15 +242,15 @@ inputName2 = do
 
 boardSize1 :: IO Board
 boardSize1 = do 
-				putStrLn "Place your fishing boat, 2 squares. Format ((x1,y1),(x2,y2))"
-				cords <- getLine
-				putStrLn "Place your submarine, 3 squares. Format ((x1,y1),(x2,y2))"
-				cords2 <- getLine
-				putStrLn "Place your battleship, 4 squares. Format ((x1,y1),(x2,y2))"
-				cords3 <- getLine
-				putStrLn "Place your carrier, 5 squares. Format ((x1,y1),(x2,y2))"
-				cords4 <- getLine
-				return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10)))))))
+        putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
+        cords <- getLine
+        putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
+        cords2 <- getLine
+        putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
+        cords3 <- getLine
+        putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
+        cords4 <- getLine
+        if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize1
 
 {- boardSize2
    PURPOSE:  ... high level description of purpose of function
@@ -247,18 +261,17 @@ boardSize1 = do
 -}
 boardSize2 :: IO Board
 boardSize2 = do 
-				putStrLn "Place your fishing boat, 2 squares. Format ((x1,y1),(x2,y2))"
-				cords <- getLine
-				putStrLn "Place your submarine, 3 squares. Format ((x1,y1),(x2,y2))"
-				cords2 <- getLine
-				putStrLn "Place your battleship, 4 squares. Format ((x1,y1),(x2,y2))"
-				cords3 <- getLine
-				putStrLn "Place your carrier, 5 squares. Format ((x1,y1),(x2,y2))"
-				cords4 <- getLine
-				return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10)))))))
+        putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
+        cords <- getLine
+        putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
+        cords2 <- getLine
+        putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
+        cords3 <- getLine
+        putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
+        cords4 <- getLine
+        if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize2
 
-
-	
+  
 {- victory b
    PURPOSE:  See if any player have won
    PRE:  True
@@ -266,7 +279,7 @@ boardSize2 = do
    SIDE EFFECTS: None
    EXAMPLES: victory [((1,1),Alive),((1,2),Alive),((2,1),Empty),((2,2),Empty)] = False
              victory [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)] = True
--}				
+-}        
 
 victory :: Board -> Bool
 victory b = if (length (filter (== Alive) (sortAlive b))) == 0 then True else False
@@ -286,10 +299,10 @@ victory b = if (length (filter (== Alive) (sortAlive b))) == 0 then True else Fa
 
 attack :: Board -> Cord -> Board
 attack (x:xs) (a,b)
-	| getCord (a,b) (x:xs) == False = (x:xs)
-	| (a,b) == (fst x) && (snd x) == Empty = ((a,b), Miss) : xs
-	| (a,b) == (fst x) && (snd x) == Alive = ((a,b), Dead) : xs
-	| otherwise = (x : attack xs (a,b))
+  | getCord (a,b) (x:xs) == False = (x:xs)
+  | (a,b) == (fst x) && (snd x) == Empty = ((a,b), Miss) : xs
+  | (a,b) == (fst x) && (snd x) == Alive = ((a,b), Dead) : xs
+  | otherwise = (x : attack xs (a,b))
 
 
 {- makeBoard (x,y)
@@ -307,12 +320,12 @@ makeBoard :: Cord -> Board
 makeBoard (_,0)  = []
 makeBoard (0,_)  = []
 makeBoard (x,y)  = makeBoard (x,(y-1)) ++ reverse (makeBoardAux (x,y)) 
-		where 
-			makeBoardAux :: Cord -> Board
-			makeBoardAux (0,0) = []
-			makeBoardAux (_,0) = []
-			makeBoardAux (0,_) = []
-			makeBoardAux (x,y) = ((x,y), Empty) : makeBoardAux ((x-1), y)
+    where 
+      makeBoardAux :: Cord -> Board
+      makeBoardAux (0,0) = []
+      makeBoardAux (_,0) = []
+      makeBoardAux (0,_) = []
+      makeBoardAux (x,y) = ((x,y), Empty) : makeBoardAux ((x-1), y)
 
 {- changedBoard (b:bs) (x:xs) aux square
    PURPOSE: change statement from Empty to Alive
@@ -323,32 +336,34 @@ makeBoard (x,y)  = makeBoard (x,(y-1)) ++ reverse (makeBoardAux (x,y))
 changedBoard :: Board -> [Cord] -> Board -> Square -> Board
 changedBoard (b:bs) [] aux _ = (b:bs)
 changedBoard (b:bs) (x:xs) aux square
-	| getCord x (b:bs) == False = (b:bs)
-	| x == fst b = changedBoard ((x, square) : bs) xs aux Alive 
-	| otherwise = changedBoard ((b:aux) ++ changedBoard bs [x] aux square) xs aux Alive
+  | getCord x (b:bs) == False = (b:bs)
+  | x == fst b = changedBoard ((x, square) : bs) xs aux Alive 
+  | otherwise = changedBoard ((b:aux) ++ changedBoard bs [x] aux square) xs aux Alive
 
 {- placeShip (Ship (x,y) (x1,y1)) (b:bs)
    PURPOSE:  Put out a ship on a board
    PRE:  (b:bs) is not empty
    POST: (b:bs) with the Squares of Cords (x->x1, y->y1) changed to Alive  
    SIDE EFFECTS: The function does not check if the ship is inside the board. 
-   EXAMPLES: placeShip (Ship3 ((1,1),(1,3))) [((1,1),Empty),((1,2),Empty),((1,3),Empty),              ((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)] =
-   =[((1,1),Alive),((1,2),Alive),((1,3),Alive),((2,1),Empty),((2,2),Empty),((2,3),Empty),              ((3,1),Empty),((3,2),Empty),((3,3),Empty)]
+   EXAMPLES: placeShip (Ship3 ((1,1),(1,3))) [((1,1),Empty),((1,2),Empty),((1,3),Empty),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)] =
+   =[((1,1),Alive),((1,2),Alive),((1,3),Alive),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)]
 -}
+
+
 
 placeShip :: Ship -> Board -> Board
 placeShip (Ship2 ((x,y),(x1,y1))) (b:bs) = changedBoard (b:bs) [(x,y),(x1,y1)] [] Alive
 placeShip (Ship3 ((x,y),(x1,y1))) (b:bs) 
-	| x < x1 || y < y1 = shipPos (Ship3 ((x,y),(x1,y1))) (b:bs)
-	| x > x1 || y > y1 = shipNeg (Ship3 ((x,y),(x1,y1))) (b:bs)
+  | x < x1 || y < y1 = shipPos (Ship3 ((x,y),(x1,y1))) (b:bs)
+  | x > x1 || y > y1 = shipNeg (Ship3 ((x,y),(x1,y1))) (b:bs)
 placeShip (Ship4 ((x,y),(x1,y1))) (b:bs) 
-	| x < x1 || y < y1 = shipPos (Ship4 ((x,y),(x1,y1))) (b:bs)
-	| x > x1 || y > y1 = shipNeg (Ship4 ((x,y),(x1,y1))) (b:bs)
+  | x < x1 || y < y1 = shipPos (Ship4 ((x,y),(x1,y1))) (b:bs)
+  | x > x1 || y > y1 = shipNeg (Ship4 ((x,y),(x1,y1))) (b:bs)
 
 placeShip (Ship5 ((x,y),(x1,y1))) (b:bs) 
-	| x < x1 || y < y1 = shipPos (Ship5 ((x,y),(x1,y1))) (b:bs)
-	| x > x1 || y > y1 = shipNeg (Ship5 ((x,y),(x1,y1))) (b:bs)
-	 		
+  | x < x1 || y < y1 = shipPos (Ship5 ((x,y),(x1,y1))) (b:bs)
+  | x > x1 || y > y1 = shipNeg (Ship5 ((x,y),(x1,y1))) (b:bs)
+      
 {- shipPos
    PURPOSE:  ... high level description of purpose of function
    PRE:  ... pre-condition on the arguments ...
@@ -358,24 +373,24 @@ placeShip (Ship5 ((x,y),(x1,y1))) (b:bs)
 -}
 shipPos :: Ship -> Board -> Board 
 shipPos (Ship2 ((x,y),(x1,y1))) (b:bs)
-	| x == x1 = changedBoard (b:bs) [(x,y),(x,(y+1))] [] Alive 
-	| y == y1 = changedBoard (b:bs) [(x,y),((x+1),y)] [] Alive
-	| otherwise = (b:bs)	 		
+  | x == x1 = changedBoard (b:bs) [(x,y),(x,(y+1))] [] Alive 
+  | y == y1 = changedBoard (b:bs) [(x,y),((x+1),y)] [] Alive
+  | otherwise = (b:bs)      
 
 shipPos (Ship3 ((x,y),(x1,y1))) (b:bs)
-	| x == x1 = changedBoard (b:bs) [(x,y),(x,(y+1)),(x,(y+2))] [] Alive 
-	| y == y1 = changedBoard (b:bs) [(x,y),((x+1),y),((x+2),y)] [] Alive
-	| otherwise = (b:bs)
+  | x == x1 = changedBoard (b:bs) [(x,y),(x,(y+1)),(x,(y+2))] [] Alive 
+  | y == y1 = changedBoard (b:bs) [(x,y),((x+1),y),((x+2),y)] [] Alive
+  | otherwise = (b:bs)
 
 shipPos (Ship4 ((x,y),(x1,y1))) (b:bs)
-	| x == x1 = changedBoard (b:bs) [(x,y),(x,(y+1)),(x,(y+2)),(x,(y+3))] [] Alive 
-	| y == y1 = changedBoard (b:bs) [(x,y),((x+1),y),((x+2),y),((x+3),y)] [] Alive
-	| otherwise = (b:bs)
+  | x == x1 = changedBoard (b:bs) [(x,y),(x,(y+1)),(x,(y+2)),(x,(y+3))] [] Alive 
+  | y == y1 = changedBoard (b:bs) [(x,y),((x+1),y),((x+2),y),((x+3),y)] [] Alive
+  | otherwise = (b:bs)
 
 shipPos (Ship5 ((x,y),(x1,y1))) (b:bs)
-	| x == x1 = changedBoard (b:bs) [(x,y),(x,(y+1)),(x,(y+2)),(x,(y+3)),(x,(y+4))] [] Alive 
-	| y == y1 = changedBoard (b:bs) [(x,y),((x+1),y),((x+2),y),((x+3),y),((x+4),y)] [] Alive
-	| otherwise = (b:bs)
+  | x == x1 = changedBoard (b:bs) [(x,y),(x,(y+1)),(x,(y+2)),(x,(y+3)),(x,(y+4))] [] Alive 
+  | y == y1 = changedBoard (b:bs) [(x,y),((x+1),y),((x+2),y),((x+3),y),((x+4),y)] [] Alive
+  | otherwise = (b:bs)
 
 {- shipNeg
    PURPOSE:  ... high level description of purpose of function
@@ -387,24 +402,24 @@ shipPos (Ship5 ((x,y),(x1,y1))) (b:bs)
 
 shipNeg :: Ship -> Board -> Board 
 shipNeg (Ship2 ((x,y),(x1,y1))) (b:bs)
- 	| x == x1 = changedBoard (b:bs) [(x,y),(x,(y-1))] [] Alive 
-	| y == y1 = changedBoard (b:bs) [(x,y),((x-1),y)] [] Alive
-	| otherwise = (b:bs)
+  | x == x1 = changedBoard (b:bs) [(x,y),(x,(y-1))] [] Alive 
+  | y == y1 = changedBoard (b:bs) [(x,y),((x-1),y)] [] Alive
+  | otherwise = (b:bs)
 
 shipNeg (Ship3 ((x,y),(x1,y1))) (b:bs)
- 	| x == x1 = changedBoard (b:bs) [(x,y),(x,(y-1)),(x,(y-2))] [] Alive 
-	| y == y1 = changedBoard (b:bs) [(x,y),((x-1),y),((x-2),y)] [] Alive
-	| otherwise = (b:bs)
+  | x == x1 = changedBoard (b:bs) [(x,y),(x,(y-1)),(x,(y-2))] [] Alive 
+  | y == y1 = changedBoard (b:bs) [(x,y),((x-1),y),((x-2),y)] [] Alive
+  | otherwise = (b:bs)
 
 shipNeg (Ship4 ((x,y),(x1,y1))) (b:bs)
-	| x == x1 = changedBoard (b:bs) [(x,y),(x,(y-1)),(x,(y-2)),(x,(y-3))] [] Alive 
-	| y == y1 = changedBoard (b:bs) [(x,y),((x-1),y),((x-2),y),((x-3),y)] [] Alive
-	| otherwise = (b:bs)
+  | x == x1 = changedBoard (b:bs) [(x,y),(x,(y-1)),(x,(y-2)),(x,(y-3))] [] Alive 
+  | y == y1 = changedBoard (b:bs) [(x,y),((x-1),y),((x-2),y),((x-3),y)] [] Alive
+  | otherwise = (b:bs)
 
 shipNeg (Ship5 ((x,y),(x1,y1))) (b:bs)
-	| x == x1 = changedBoard (b:bs) [(x,y),(x,(y-1)),(x,(y-2)),(x,(y-3)),(x,(y-4))] [] Alive 
-	| y == y1 = changedBoard (b:bs) [(x,y),((x-1),y),((x-2),y),((x-3),y),((x-4),y)] [] Alive
-	| otherwise = (b:bs)
+  | x == x1 = changedBoard (b:bs) [(x,y),(x,(y-1)),(x,(y-2)),(x,(y-3)),(x,(y-4))] [] Alive 
+  | y == y1 = changedBoard (b:bs) [(x,y),((x-1),y),((x-2),y),((x-3),y),((x-4),y)] [] Alive
+  | otherwise = (b:bs)
 
 {- getCord (x,y) (b:bs)
    PURPOSE:  Check if coordinate is in Board
@@ -416,8 +431,8 @@ shipNeg (Ship5 ((x,y),(x1,y1))) (b:bs)
 getCord :: Cord -> Board -> Bool
 getCord (x,y) [] = False
 getCord (x,y) (b:bs) 
-	| (x,y) == fst b = True
-	| otherwise = getCord (x,y) bs
+  | (x,y) == fst b = True
+  | otherwise = getCord (x,y) bs
 
 {- validShip Ship 
    PURPOSE:  ... high level description of purpose of function
@@ -461,12 +476,12 @@ printBoard boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattleg
    EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
 -}
 
-	where
-		printBattleground :: Board -> Int -> Int -> IO()
-		printBattleground (a:xs) x y 
-			|x == 10 && y == 1 = printAttack (snd a) >> putStr "\n"
-			|x == 10 = printAttack (snd a) >> putStr "\n" >>printBattleground (xs) 1 (y-1)
-			|x /= 10 = printAttack (snd a) >> printBattleground (xs) (x+1) y
+  where
+    printBattleground :: Board -> Int -> Int -> IO()
+    printBattleground (a:xs) x y 
+      |x == 10 && y == 1 = printAttack (snd a) >> putStr "\n"
+      |x == 10 = printAttack (snd a) >> putStr "\n" >>printBattleground (xs) 1 (y-1)
+      |x /= 10 = printAttack (snd a) >> printBattleground (xs) (x+1) y
             
 {- printAttack square
    PURPOSE:  print out attacks
@@ -474,12 +489,12 @@ printBoard boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattleg
    POST: print out attacked coordinates on the Board depending on statement of that cord.
    EXAMPLES: 
 -}
-		printAttack :: Square -> IO()
-		printAttack square
-			|square == Dead  = putStr "|x|"
-			|square == Miss  = putStr "|#|"
-			|square == Alive = putStr "|O|"
-			|otherwise       = putStr "|_|"
+    printAttack :: Square -> IO()
+    printAttack square
+      |square == Dead  = putStr "|x|"
+      |square == Miss  = putStr "|#|"
+      |square == Alive = putStr "|O|"
+      |otherwise       = putStr "|_|"
 
 {- validShot (x:xs) (a,b) 
    PURPOSE:  Checks if the cordinates for the shot is valid.
@@ -491,14 +506,14 @@ printBoard boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattleg
 -}
 validShot :: Board -> Cord -> Bool
 validShot (x:xs) (a,b) 
-	| (getCord (a,b) (x:xs)) == False = False
-	| (snd (pickCord (x:xs) (a,b))) == Dead = False
-	| (snd (pickCord (x:xs) (a,b))) == Miss = False  
-	| otherwise = True 
-		where 
-			pickCord (x:xs) (a,b) 
-				| (fst x) == (a,b) = x 
-				| otherwise = pickCord xs (a,b)
+  | (getCord (a,b) (x:xs)) == False = False
+  | (snd (pickCord (x:xs) (a,b))) == Dead = False
+  | (snd (pickCord (x:xs) (a,b))) == Miss = False  
+  | otherwise = True 
+    where 
+      pickCord (x:xs) (a,b) 
+        | (fst x) == (a,b) = x 
+        | otherwise = pickCord xs (a,b)
 
 
 
@@ -507,41 +522,43 @@ validShot (x:xs) (a,b)
 --------------------------------------------------------------
 ----TEST CASES
 
+---- makeBoard
+test1 = TestCase $ assertEqual "makeBoard"
+            ([]) ( (makeBoard(0,0)))
 
----- play
---test1 = TestCase $ assertEqual "play"
---            (Just 7) (Table.lookup (characterCounts "this is an example of a huffman tree") ' ')
-
----- codeTable
+---- getCord
 ---- while the precise code for ' ' may vary, its length (for the given example string) should always be 3 bits
---test2 = TestCase $ assertEqual "codeTable"
---            3 (maybe (-1) length (Table.lookup (codeTable (huffmanTree (characterCounts "this is an example of a huffman tree"))) ' '))
+test2 = TestCase $ assertEqual "getCord"
+           (True) ( (getCord (1,1) [((1,1), Alive)]))
 
----- compress
+---- validShot
 ---- while the precise code for the given example string may vary, its length should always be 135 bits
---test3 = TestCase $ assertEqual "compress"
---            135 (length (snd (compress "this is an example of a huffman tree")))
+test3 = TestCase $ assertEqual "validShot"
+            (True) ( (validShot [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)] (2,2))) 
+---- victory
+test4 = TestCase $ assertEqual "victory"
+            (False) ( (victory [((1,1),Alive),((1,2),Alive),((2,1),Empty),((2,2),Empty)]))
 
----- decompress
---test4 =
---    let s = "this is an example of a huffman tree"
---    in
---      TestCase $ assertEqual ("decompress \"" ++ s ++ "\"")
---        s (let (h, bits) = compress s in decompress h bits)
+test5 = TestCase $ assertEqual "shipNeg"
+            ([((1,1),Alive),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),((1,2),Empty),((2,
+            2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),
+            ((8,2),Empty),((9,2),Empty),((10,2),Empty),((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3
+            ),Empty),((10,3),Empty),((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),
+            ((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Empty),((6,5
+            ),Empty),((7,5),Empty),((8,5),Empty),((9,5),Empty),((10,5),Empty),((1,6),Empty),
+            ((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Empty),((8,6),Empty),((9,6),Empty),((10,6),Empty),((1,7),Empty),((2,7),Empty),((3,7
+            ),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),(
+            (9,7),Empty),((10,7),Empty),((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8
+            ),Empty),((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),(
+            (6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),
+            ((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) 
+            (shipNeg (Ship2 ((1,1),(1,2))) (makeBoard(10,10)))
 
---test5 =
---    let s = "xxx"
---    in
---      TestCase $ assertEqual ("decompress \"" ++ s ++ "\"")
---        s (let (h, bits) = compress s in decompress h bits)
-
---test6 =
+            --test6 =
 --    let s = ""
 --    in
 --      TestCase $ assertEqual ("decompress \"" ++ s ++ "\"")
 --        s (let (h, bits) = compress s in decompress h bits)
 
 ---- for running all the tests
---runtests = runTestTT $ TestList [test1, test2, test3, test4, test5, test6]
-
-
+runtests = runTestTT $ TestList [test1, test2, test3, test4, test5]
