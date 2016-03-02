@@ -118,7 +118,7 @@ playAI = do
       game board1 board2 name1
         where 
           game b1 b2 n1 = do 
-              putStrLn (n1 ++ ", it's your turn to attack!\nIf you want to see the Computers board before making your move, type Show")
+              putStrLn (n1 ++ ", it's your turn to attack!\nIf you want to see your board before making your move, type Show")
               cord <- getLine
               if cord == "Show" || cord == "show" then do printBoard b1 >> game b1 b2 n1 else 
                 if cord == "Quit" || cord == "quit" then do main else if elem cord (map show (range ((1,1),(10,10)))) /= True then putStrLn "Invalid move, please try again!" >> game b1 b2 n1
