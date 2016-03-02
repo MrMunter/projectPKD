@@ -2,25 +2,25 @@ Loggbok Christopher Ekfeldt
 
 
 15/2 (2h)
-Diskussion angående projektet innan möte.
+Diskussion angÃ¥ende projektet innan mÃ¶te.
 
 16/2 (2h) 
-Förberedelser med top down design 
+FÃ¶rberedelser med top down design 
 
 17/2 (2h)
-Fortsättning med Top down designen
+FortsÃ¤ttning med Top down designen
 
 18/02 (1h)
-Möte 
+MÃ¶te 
 
 19/02 (5h) 
-Uppstart, programmering. (Spelplan definierad och diverse småfunktioner.) 
+Uppstart, programmering. (Spelplan definierad och diverse smÃ¥funktioner.) 
 
 21/02 (2h)
-Brainstorming med gruppen. Fortsatt planerat hurvida vårt projekt ska se ut. 
+Brainstorming med gruppen. Fortsatt planerat hurvida vÃ¥rt projekt ska se ut. 
 
 22/02 (1h)
-Gjort användere till Github, skapat delat dokument med vår supervisor.
+Gjort anvÃ¤ndere till Github, skapat delat dokument med vÃ¥r supervisor.
 
 23/02 (5h)
 Programmering 
@@ -29,13 +29,13 @@ Programmering
 Research IO + programmering IO funktioner
 
 25/02 (7h)
-Möte + Programmering 
+MÃ¶te + Programmering 
 
 26/02 (5h)
-Började skelett i rapport + kodat.
+BÃ¶rjade skelett i rapport + kodat.
 
 27/02 (7h)
-Fixat Multiplayer mode, fortfarande mycket att göra
+Fixat Multiplayer mode, fortfarande mycket att gÃ¶ra
 
 28/02 (5h)
 ASCII plan byggd.
@@ -44,4 +44,7 @@ ASCII plan byggd.
 Coding convention + funktioner, fixat problem
 
 01/03 (10h) 
-Möte med Dave Clarke, rapportskrivande, mer coding convention, fixat kod.
+MÃ¶te med Dave Clarke, rapportskrivande, mer coding convention, fixat kod.
+
+02/03 (5h)
+Gjorde klart coding convention helt, skrivit massa i rapporten
