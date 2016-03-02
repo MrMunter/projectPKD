@@ -52,9 +52,9 @@ menu = do
     putStrLn "1. Play with a friend\n2. Play against the computer\n3. Read rules\n4. Quit\n\n"
     input <- getLine
     if (input == "1") 
-      then play    --putStrLn "lets play" --play --här ska play vara
+      then play   
       else if (input == "2") 
-        then  playAI -- här ska rules vara
+        then  playAI 
         else if (input == "3")
           then rules
           else if (input == "4")
@@ -62,9 +62,9 @@ menu = do
             else menu
                     
 {- play
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
+   PURPOSE:  Start a multiplayer game for 2 persons
+   PRE:      True
+   POST:     Returns you to the menu by calling main
    SIDE EFFECTS: ... if any, including exceptions ...
    EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
 -}
@@ -101,9 +101,9 @@ play = do
                           else game (attack b1 (read cord2)) (attack b2 (read cord)) n1 n2 
 
 {- playAI
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
+   PURPOSE:  Start a game versus an AI controlled opponent
+   PRE:      True
+   POST:     Returns you to the menu by calling main
    SIDE EFFECTS: ... if any, including exceptions ...
    EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
 -}
@@ -141,9 +141,8 @@ playAI = do
 {- randomBoardGen
    PURPOSE:  generates the board used by the AI
    PRE:      True
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+   POST:     the AI board with ships placed at random coordinates
+   EXAMPLES: randomBoardGen = [((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),((1,2),Empty),((2,2),Empty),((3,2),Alive),((4,2),Alive),((5,2),Alive),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Alive),((8,3),Alive),((9,3),Alive),((10,3),Alive),((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Alive),((6,5),Alive),((7,5),Alive),((8,5),Alive),((9,5),Alive),((10,5),Empty),((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Alive),((8,6),Alive),((9,6),Empty),((10,6),Empty),((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]
 -}
 randomBoardGen :: IO Board
 randomBoardGen = do
@@ -255,12 +254,16 @@ boardSize1 :: IO Board
 boardSize1 = do 
                 putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
                 cords <- getLine
+                if (length cords) < 13 || (length cords) > 16 || (take 2 cords) /= "((" || (drop (length (cords)-2) cords) /= "))" ||  elem (show (last ((take 3 cords)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords)-2) cords)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do
                 putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
                 cords2 <- getLine
+                if (length cords2) < 13 || (length cords2) > 16 || (take 2 cords2) /= "((" || (drop (length (cords2)-2) cords2) /= "))" ||  elem (show (last ((take 3 cords2)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords2)-2) cords2)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
                 putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
                 cords3 <- getLine
+                if (length cords3) < 13 || (length cords3) > 16 || (take 2 cords3) /= "((" || (drop (length (cords3)-2) cords3) /= "))" ||  elem (show (last ((take 3 cords3)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords3)-2) cords3)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
                 putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
                 cords4 <- getLine
+                if (length cords4) < 13 || (length cords4) > 16 || (take 2 cords4) /= "((" || (drop (length (cords4)-2) cords4) /= "))" ||  elem (show (last ((take 3 cords4)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords4)-2) cords4)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
                 if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4))     (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2))  (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize1
 
 {- boardSize2
@@ -291,15 +294,18 @@ boardSize1 = do
 boardSize2 :: IO Board
 boardSize2 = do 
                 putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
-                cords  <- getLine
+                cords <- getLine
+                if (length cords) < 13 || (length cords) > 16 || (take 2 cords) /= "((" || (drop (length (cords)-2) cords) /= "))" ||  elem (show (last ((take 3 cords)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords)-2) cords)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do
                 putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
                 cords2 <- getLine
+                if (length cords2) < 13 || (length cords2) > 16 || (take 2 cords2) /= "((" || (drop (length (cords2)-2) cords2) /= "))" ||  elem (show (last ((take 3 cords2)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords2)-2) cords2)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
                 putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
                 cords3 <- getLine
+                if (length cords3) < 13 || (length cords3) > 16 || (take 2 cords3) /= "((" || (drop (length (cords3)-2) cords3) /= "))" ||  elem (show (last ((take 3 cords3)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords3)-2) cords3)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
                 putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
                 cords4 <- getLine
-                
-                if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize2
+                if (length cords4) < 13 || (length cords4) > 16 || (take 2 cords4) /= "((" || (drop (length (cords4)-2) cords4) /= "))" ||  elem (show (last ((take 3 cords4)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords4)-2) cords4)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
+                if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4))     (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2))  (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize2
 
 {- victory b
    PURPOSE:  See if any player have won
@@ -369,7 +375,7 @@ changedBoard (b:bs) (x:xs) aux square
    PRE:          (b:bs) is not empty
    POST:         (b:bs) with the Squares of Cords (x->x1, y->y1) changed to Alive  
    SIDE EFFECTS: The function does not check if the ship is inside the board. 
-   EXAMPLES:     placeShip (Ship3 ((1,1),(1,3))) [((1,1),Empty),((1,2),Empty),((1,3),Empty),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)] =                    [((1,1),Alive),((1,2),Alive),((1,3),Alive),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)]
+   EXAMPLES:     placeShip (Ship3 ((1,1),(1,3))) [((1,1),Empty),((1,2),Empty),((1,3),Empty),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),                      ((3,3),Empty)] = [((1,1),Alive),((1,2),Alive),((1,3),Alive),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)]
 -}
 placeShip :: Ship -> Board -> Board
 placeShip (Ship2 ((x,y),(x1,y1))) (b:bs) = changedBoard (b:bs) [(x,y),(x1,y1)] [] Alive
@@ -384,12 +390,12 @@ placeShip (Ship5 ((x,y),(x1,y1))) (b:bs)
   | x < x1 || y < y1 = shipPos (Ship5 ((x,y),(x1,y1))) (b:bs)
   | x > x1 || y > y1 = shipNeg (Ship5 ((x,y),(x1,y1))) (b:bs)
       
-{- shipPos
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+{- shipPos Ship (b:bs)
+   PURPOSE:  Check if the ship is horistantal or vertical and place it on a board.
+   PRE:  x1 > x || y1 > y && x == x1 || y == y1
+   POST: Ship placed Vertical if y1 > y, Ship placed horisontal if x1 > x. In (b:bs)
+   EXAMPLES: shipPos (Ship2 ((1,1),(1,2))) [((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)] = [((1,1),Alive),((2,1),Empty),((1,2),Alive),((2,2),Empty)]
+             shipPos (Ship2 ((1,2),(2,2))) [((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)] = [((1,1),Empty),((2,1),Empty),((1,2),Alive),((2,2),Alive)]
 -}
 shipPos :: Ship -> Board -> Board 
 shipPos (Ship2 ((x,y),(x1,y1))) (b:bs)
@@ -412,12 +418,12 @@ shipPos (Ship5 ((x,y),(x1,y1))) (b:bs)
   | y == y1 = changedBoard (b:bs) [(x,y),((x+1),y),((x+2),y),((x+3),y),((x+4),y)] [] Alive
   | otherwise = (b:bs)
 
-{- shipNeg
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+{- shipNeg Ship (b:bs)
+   PURPOSE: placeShip calls this function when you place a ship with the first cord "larger" then the second, then Check if the ship is horistantal or vertical and place it on a board.
+   PRE:  x1 < x || y1 < y && x == x1 || y == y1
+   POST: Ship placed Vertical if y1 < y, Ship placed horisontal if x1 < x. In (b:bs)
+   EXAMPLES: shipNeg (Ship2 ((1,2),(1,1))) [((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)] = [((1,1),Alive),((2,1),Empty),((1,2),Alive),((2,2),Empty)]
+             shipNeg (Ship2 ((2,2),(1,2))) [((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)] = [((1,1),Empty),((2,1),Empty),((1,2),Alive),((2,2),Alive)]
 -}
 shipNeg :: Ship -> Board -> Board 
 shipNeg (Ship2 ((x,y),(x1,y1))) (b:bs)
