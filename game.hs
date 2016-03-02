@@ -9,12 +9,6 @@ import Control.Monad
    REPRESENTATION INVARIANT:  ... requirements on elements of the datatype that the code preserves at all times ...
 -}
  
-data Direction = Horisontal | Vertical
-
-{- REPRESENTATION CONVENTION: ... description of how the datatype represents data ...
-   REPRESENTATION INVARIANT:  ... requirements on elements of the datatype that the code preserves at all times ...
--}
- 
 data Ship = Ship5 (Cord,Cord) | Ship4 (Cord,Cord) | Ship3 (Cord,Cord)  | Ship2 (Cord,Cord)
 
 {- REPRESENTATION CONVENTION: ... description of how the datatype represents data ...
@@ -32,8 +26,8 @@ type BoardSize = (Int, Int)
 
 
 {- main
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
+   PURPOSE:  Starts the program
+   PRE:      True
    POST: ... post-condition on the result, in terms of the arguments ...
    SIDE EFFECTS: ... if any, including exceptions ...
    EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
@@ -106,6 +100,13 @@ play = do
                             then do putStrLn (n2 ++ " Win\n") >> main
                           else game (attack b1 (read cord2)) (attack b2 (read cord)) n1 n2 
 
+{- playAI
+   PURPOSE:  ... high level description of purpose of function
+   PRE:  ... pre-condition on the arguments ...
+   POST: ... post-condition on the result, in terms of the arguments ...
+   SIDE EFFECTS: ... if any, including exceptions ...
+   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+-}
 playAI :: IO ()
 playAI = do 
 
@@ -134,23 +135,16 @@ playAI = do
                       if victory (attack b1 (computerCordX, computerCordY)) 
                         then do putStrLn ("Computer Wins\n") >> printBoard (attack b1 (computerCordX, computerCordY)) >> main
                         else game (attack b1 (computerCordX, computerCordY)) (attack b2 (read cord)) n1
-          
-rand :: IO ()
-rand = do
-              a <- randomRIO (1,9)  :: IO Int
-              b <- randomRIO (1,10) :: IO Int
 
-              c <- randomRIO (1,8)  :: IO Int
-              d <- randomRIO (1,10) :: IO Int
 
-              e <- randomRIO (1,7)  :: IO Int
-              f <- randomRIO (1,10) :: IO Int
-
-              g <- randomRIO (1,6)  :: IO Int
-              h <- randomRIO (1,10) :: IO Int
-
-              print (a,b,c,d,e,f,g,h)
-
+              
+{- randomBoardGen
+   PURPOSE:  generates the board used by the AI
+   PRE:      True
+   POST: ... post-condition on the result, in terms of the arguments ...
+   SIDE EFFECTS: ... if any, including exceptions ...
+   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+-}
 randomBoardGen :: IO Board
 randomBoardGen = do
               
@@ -189,98 +183,131 @@ randomBoardGen = do
                      if ((length (filter (\x -> snd x == Alive) (placeShip (Ship5 ((vrandomCord5X, vrandomCord5Y), ((vrandomCord5X+4),vrandomCord5Y))) (placeShip (Ship4 ((vrandomCord4X, vrandomCord4Y), ((vrandomCord4X+3),vrandomCord4Y))) (placeShip (Ship3 ((vrandomCord3X, vrandomCord3Y), ((vrandomCord3X+2),vrandomCord3Y))) (placeShip (Ship2 ((vrandomCord2X, vrandomCord2Y), ((vrandomCord2X+1),vrandomCord2Y))) (makeBoard(10,10))))))))) == 14 then return (placeShip (Ship5 ((vrandomCord5X, vrandomCord5Y), ((vrandomCord5X+4),vrandomCord5Y))) (placeShip (Ship4 ((vrandomCord4X, vrandomCord4Y), ((vrandomCord4X+3),vrandomCord4Y))) (placeShip (Ship3 ((vrandomCord3X, vrandomCord3Y), ((vrandomCord3X+2),vrandomCord3Y))) (placeShip (Ship2 ((vrandomCord2X, vrandomCord2Y), ((vrandomCord2X+1),vrandomCord2Y))) (makeBoard(10,10)))))) else randomBoardGen
 
 {- rules
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+   PURPOSE:  reads a .txt-file and prints it to the terminal.
+   PRE:      a .txt-file
+   POST:     an imported text-file. 
+   EXAMPLES: contents <- readFile "gameRules.txt"
+             print contents = "TEST-TEXT"
 -}
-
 rules :: IO ()
 rules = do 
-         
-         contents <- readFile "rulesGame.txt"
+         contents <- readFile "gameRules.txt"
          print contents 
          menu 
 
 
 {- inputName1
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+   PURPOSE:  to get the first persons name
+   PRE:      True
+   POST:     a string saved in name1 
+   EXAMPLES: "What is the name of player 1?"
+             name1 <- Zlatan
+             print name1
+             Zlatan
 -}
-
 inputName1 :: IO String
 inputName1 = do 
-          putStrLn "What is the name of player 1?"
-          name1 <- getLine
-          return name1
+                putStrLn "What is the name of player 1?"
+                name1 <- getLine
+                return name1
                 
 {- inputName2
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
--}        
-
+   PURPOSE:  to get the second persons name
+   PRE:      True
+   POST:     a string saved in name2 
+   EXAMPLES: What is the name of player 2?
+             name2 <- Balotelli
+             print name2
+             Balotelli
+-}     
 inputName2 :: IO String
 inputName2 = do
-        putStrLn "What is the name of player 2?"
-        name2 <- getLine
-        return name2
+                putStrLn "What is the name of player 2?"
+                name2 <- getLine
+                return name2
                 
 {- boardSize1
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+   PURPOSE:  place out ships from input
+   PRE:      correct format of the coordinates
+   POST:     board1 with ships at locations from typed coordinates. (cords,cords2,cords3,cords4)
+   EXAMPLES: Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))
+             ((1,2),(1,3))
+             Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))
+             ((2,3),(2,5))
+             Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))
+             ((5,3),(5,6))
+             Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))
+             ((6,3),(6,7)) =
+             
+ _  _  _  _  _  _  _  _  _  _
+|_||_||_||_||_||_||_||_||_||_|
+|O||_||_||_||_||_||_||_||_||_|
+|O||O||_||_||O||O||_||_||_||_|
+|_||O||_||_||O||O||_||_||_||_|
+|_||O||_||_||O||O||_||_||_||_|
+|_||_||_||_||O||O||_||_||_||_|
+|_||_||_||_||_||O||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
 -}
-
 boardSize1 :: IO Board
 boardSize1 = do 
-        putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
-        cords <- getLine
-        putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
-        cords2 <- getLine
-        putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
-        cords3 <- getLine
-        putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
-        cords4 <- getLine
-        if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize1
+                putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
+                cords <- getLine
+                putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
+                cords2 <- getLine
+                putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
+                cords3 <- getLine
+                putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
+                cords4 <- getLine
+                if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4))     (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2))  (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize1
 
 {- boardSize2
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+   PURPOSE:  place out ships from input
+   PRE:      correct format of the coordinates
+   POST:     board2 with ships at locations from typed coordinates. (cords,cords2,cords3,cords4) 
+   EXAMPLES: Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))
+             ((1,2),(1,3))
+             Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))
+             ((2,3),(2,5))
+             Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))
+             ((5,3),(5,6))
+             Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))
+             ((6,3),(6,7)) =
+             
+ _  _  _  _  _  _  _  _  _  _
+|_||_||_||_||_||_||_||_||_||_|
+|O||_||_||_||_||_||_||_||_||_|
+|O||O||_||_||O||O||_||_||_||_|
+|_||O||_||_||O||O||_||_||_||_|
+|_||O||_||_||O||O||_||_||_||_|
+|_||_||_||_||O||O||_||_||_||_|
+|_||_||_||_||_||O||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
 -}
 boardSize2 :: IO Board
 boardSize2 = do 
-        putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
-        cords <- getLine
-        putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
-        cords2 <- getLine
-        putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
-        cords3 <- getLine
-        putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
-        cords4 <- getLine
-        if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize2
+                putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
+                cords  <- getLine
+                putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
+                cords2 <- getLine
+                putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
+                cords3 <- getLine
+                putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
+                cords4 <- getLine
+                
+                if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize2
 
-  
 {- victory b
    PURPOSE:  See if any player have won
-   PRE:  True
-   POST: True if no Alive statement. Else False
-   SIDE EFFECTS: None
+   PRE:      True
+   POST:     True if no Alive statement. Else False
    EXAMPLES: victory [((1,1),Alive),((1,2),Alive),((2,1),Empty),((2,2),Empty)] = False
              victory [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)] = True
 -}        
-
 victory :: Board -> Bool
 victory b = if (length (filter (== Alive) (sortAlive b))) == 0 then True else False
     where 
@@ -289,17 +316,16 @@ victory b = if (length (filter (== Alive) (sortAlive b))) == 0 then True else Fa
         sortAlive (b:bs) = ((snd b) : sortAlive bs)
 
 {- attack (x:xs) (a,b) 
-   PURPOSE:  Performing a attack on the board.
-   PRE:  True 
-   POST: (x:xs) with the element ((a,b), Empty) to ((a,b), Miss) || ((a,b), Alive) to ((a,b), Dead)
+   PURPOSE:      Performing a attack on the board.
+   PRE:          True 
+   POST:         (x:xs) with the element ((a,b), Empty) to ((a,b), Miss) || ((a,b), Alive) to ((a,b), Dead)
    SIDE EFFECTS: If (a,b) is not a Cord in (x:xs) we get (x:xs) back.
-   EXAMPLES: attack [((1,1), Alive)] (1,1) = [((1,1), Dead)]
-             attack [((1,1), Empty)] (1,1) = [((1,1), Miss)]
+   EXAMPLES:     attack [((1,1), Alive)] (1,1) = [((1,1), Dead)]
+                 attack [((1,1), Empty)] (1,1) = [((1,1), Miss)]
 -}
-
 attack :: Board -> Cord -> Board
 attack (x:xs) (a,b)
-  | getCord (a,b) (x:xs) == False = (x:xs)
+  | getCord (a,b) (x:xs)        == False = (x:xs)
   | (a,b) == (fst x) && (snd x) == Empty = ((a,b), Miss) : xs
   | (a,b) == (fst x) && (snd x) == Alive = ((a,b), Dead) : xs
   | otherwise = (x : attack xs (a,b))
@@ -307,15 +333,12 @@ attack (x:xs) (a,b)
 
 {- makeBoard (x,y)
    PURPOSE:  Makes a board
-   PRE:  x & y is positive Integers 
-   POST: List of tuples with all combinations 1 -> x and 1 -> y and Empty as second argument.          [((x,y), Empty)] 
+   PRE:      x & y is positive Integers 
+   POST:     List of tuples with all combinations 1 -> x and 1 -> y and Empty as second argument.          [((x,y), Empty)] 
    EXAMPLES: makeBoard (3,3) = [((1,1),Empty),((1,2),Empty),((1,3),Empty),((2,1),Empty),
    ((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)]
              makeBoard (1,1) = [((1,1),Empty)]
 -}
-
-
-
 makeBoard :: Cord -> Board
 makeBoard (_,0)  = []
 makeBoard (0,_)  = []
@@ -328,10 +351,11 @@ makeBoard (x,y)  = makeBoard (x,(y-1)) ++ reverse (makeBoardAux (x,y))
       makeBoardAux (x,y) = ((x,y), Empty) : makeBoardAux ((x-1), y)
 
 {- changedBoard (b:bs) (x:xs) aux square
-   PURPOSE: change statement from Empty to Alive
-   PRE: (b:bs) is not an empty list.
-   POST: -
-   EXAMPLES: changedBoard ([((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)]) [(1,1),(1,2)] [] Alive = [((1,1),Alive),((1,2),Alive),((2,1),Empty),((2,2),Empty)]
+   PURPOSE:  change statement from Empty to Alive
+   PRE:      (b:bs) is not an empty list.
+   POST:     -
+   EXAMPLES: changedBoard ([((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)]) [(1,1),(1,2)] [] Alive =
+                           [((1,1),Alive),((1,2),Alive),((2,1),Empty),((2,2),Empty)]
 -}
 changedBoard :: Board -> [Cord] -> Board -> Square -> Board
 changedBoard (b:bs) [] aux _ = (b:bs)
@@ -341,16 +365,12 @@ changedBoard (b:bs) (x:xs) aux square
   | otherwise = changedBoard ((b:aux) ++ changedBoard bs [x] aux square) xs aux Alive
 
 {- placeShip (Ship (x,y) (x1,y1)) (b:bs)
-   PURPOSE:  Put out a ship on a board
-   PRE:  (b:bs) is not empty
-   POST: (b:bs) with the Squares of Cords (x->x1, y->y1) changed to Alive  
+   PURPOSE:      Put out a ship on a board
+   PRE:          (b:bs) is not empty
+   POST:         (b:bs) with the Squares of Cords (x->x1, y->y1) changed to Alive  
    SIDE EFFECTS: The function does not check if the ship is inside the board. 
-   EXAMPLES: placeShip (Ship3 ((1,1),(1,3))) [((1,1),Empty),((1,2),Empty),((1,3),Empty),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)] =
-   =[((1,1),Alive),((1,2),Alive),((1,3),Alive),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)]
+   EXAMPLES:     placeShip (Ship3 ((1,1),(1,3))) [((1,1),Empty),((1,2),Empty),((1,3),Empty),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)] =                    [((1,1),Alive),((1,2),Alive),((1,3),Alive),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)]
 -}
-
-
-
 placeShip :: Ship -> Board -> Board
 placeShip (Ship2 ((x,y),(x1,y1))) (b:bs) = changedBoard (b:bs) [(x,y),(x1,y1)] [] Alive
 placeShip (Ship3 ((x,y),(x1,y1))) (b:bs) 
@@ -399,7 +419,6 @@ shipPos (Ship5 ((x,y),(x1,y1))) (b:bs)
    SIDE EFFECTS: ... if any, including exceptions ...
    EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
 -}
-
 shipNeg :: Ship -> Board -> Board 
 shipNeg (Ship2 ((x,y),(x1,y1))) (b:bs)
   | x == x1 = changedBoard (b:bs) [(x,y),(x,(y-1))] [] Alive 
@@ -422,11 +441,11 @@ shipNeg (Ship5 ((x,y),(x1,y1))) (b:bs)
   | otherwise = (b:bs)
 
 {- getCord (x,y) (b:bs)
-   PURPOSE:  Check if coordinate is in Board
-   PRE: True
-   POST: if coord (x,y) is in (b:bs) then True. Else False
-   EXAMPLES: getCord (1,1) (makeBoard (2,2)) = True
-             getCord (1,3) (makeBoard (2,2)) = False
+   PURPOSE:  check if coordinate is in board
+   PRE:      True
+   POST:     if coord (x,y) is in (b:bs) then True. Else False
+   EXAMPLES: getCord (1,1) ([((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)]) = True
+             getCord (1,3) ([((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)]) = False
 -}
 getCord :: Cord -> Board -> Bool
 getCord (x,y) [] = False
@@ -435,11 +454,11 @@ getCord (x,y) (b:bs)
   | otherwise = getCord (x,y) bs
 
 {- validShip Ship 
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+   PURPOSE:  check if the ship is inside the board
+   PRE:      True
+   POST:     if tuple (x,c) is in b then True. Else False
+   EXAMPLES: validShip (Ship2 ((1,1),(1,2))) ([((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)]) = True
+             validShip (Ship2 ((1,6),(1,7))) ([((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)]) = False
 -}
 validShip :: Ship -> Board -> Bool
 validShip (Ship2 (x,c))  b = if (getCord x b) == True && (getCord c b) == True then True else False 
@@ -449,9 +468,9 @@ validShip (Ship5 (x,c))  b = if (getCord x b) == True && (getCord c b) == True t
 
 {- printBoard (b:bs)
    PURPOSE:  print the board
-   PRE: Boardsize 10x10
-   POST: A 10x10 size board printed in ghci
-   EXAMPLES: printBoard (makeBoard (10,10)) = 
+   PRE:      boardsize 10x10
+   POST:     a 10x10 size board printed in ghci
+   EXAMPLES: printBoard ([((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),((1,2),Empty),((2,2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3),Empty),((10,3),Empty),((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Empty),((6,5),Empty),((7,5),Empty),((8,5),Empty),((9,5),Empty),((10,5),Empty),((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Empty),((8,6),Empty),((9,6),Empty),((10,6),Empty),((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) = 
  _  _  _  _  _  _  _  _  _  _
 |_||_||_||_||_||_||_||_||_||_|
 |_||_||_||_||_||_||_||_||_||_|
@@ -464,18 +483,16 @@ validShip (Ship5 (x,c))  b = if (getCord x b) == True && (getCord c b) == True t
 |_||_||_||_||_||_||_||_||_||_|
 |_||_||_||_||_||_||_||_||_||_|
 -}
-
 printBoard :: Board -> IO()
 printBoard boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattleground boardsize 1 10)
 
 {- printBattleground  (a:xs) x y 
-   PURPOSE:  här skriver max
+   PURPOSE:  That you type in right coordinates (här skriver max)
    PRE:  ... pre-condition on the arguments ...
    POST: ... post-condition on the result, in terms of the arguments ...
    SIDE EFFECTS: ... if any, including exceptions ...
    EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
 -}
-
   where
     printBattleground :: Board -> Int -> Int -> IO()
     printBattleground (a:xs) x y 
@@ -485,8 +502,8 @@ printBoard boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattleg
             
 {- printAttack square
    PURPOSE:  print out attacks
-   PRE: True
-   POST: print out attacked coordinates on the Board depending on statement of that cord.
+   PRE:      True
+   POST:     print out attacked coordinates on the Board depending on statement of that cord.
    EXAMPLES: 
 -}
     printAttack :: Square -> IO()
@@ -498,8 +515,8 @@ printBoard boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattleg
 
 {- validShot (x:xs) (a,b) 
    PURPOSE:  Checks if the cordinates for the shot is valid.
-   PRE:  True
-   POST: True if (a,b) exists in (x:xs) with the Square Empty or Alive. Else False
+   PRE:      True
+   POST:     True if (a,b) exists in (x:xs) with the Square Empty or Alive. Else False
    EXAMPLES: validShot [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)] (2,2) = True
              validShot [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)] (3,2) = False
              validShot [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Dead)] (2,2) = False
@@ -518,7 +535,6 @@ validShot (x:xs) (a,b)
 
 
 
-
 --------------------------------------------------------------
 ----TEST CASES
 
@@ -527,18 +543,16 @@ test1 = TestCase $ assertEqual "makeBoard"
             ([]) ( (makeBoard(0,0)))
 
 ---- getCord
----- while the precise code for ' ' may vary, its length (for the given example string) should always be 3 bits
 test2 = TestCase $ assertEqual "getCord"
            (True) ( (getCord (1,1) [((1,1), Alive)]))
 
 ---- validShot
----- while the precise code for the given example string may vary, its length should always be 135 bits
 test3 = TestCase $ assertEqual "validShot"
             (True) ( (validShot [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)] (2,2))) 
 ---- victory
 test4 = TestCase $ assertEqual "victory"
             (False) ( (victory [((1,1),Alive),((1,2),Alive),((2,1),Empty),((2,2),Empty)]))
-
+---- shipNeg
 test5 = TestCase $ assertEqual "shipNeg"
             ([((1,1),Alive),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),((1,2),Empty),((2,
             2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),
@@ -554,11 +568,6 @@ test5 = TestCase $ assertEqual "shipNeg"
             ((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) 
             (shipNeg (Ship2 ((1,1),(1,2))) (makeBoard(10,10)))
 
-            --test6 =
---    let s = ""
---    in
---      TestCase $ assertEqual ("decompress \"" ++ s ++ "\"")
---        s (let (h, bits) = compress s in decompress h bits)
 
 ---- for running all the tests
 runtests = runTestTT $ TestList [test1, test2, test3, test4, test5]
