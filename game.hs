@@ -88,22 +88,24 @@ SIDE EFFECTS: None
         game b1 b2 n1 n2 = do 
             putStrLn (n1 ++ ", it's your turn to attack!")
             cord <- getLine
-            if cord == "Quit" || cord == "quit" then do main else if elem cord (map show (range ((1,1),(10,10)))) /= True then putStrLn "Invalid move, please try again!" >> game b1 b2 n1 n2
-              else do
-                putStrLn ("\n        " ++ n2 ++ "'s board") >> printBoard (attack b2 (read cord)) 
-                if victory (attack b2 (read cord))
-                  then do putStrLn (n1 ++ " win\n") >> main            
-                else game2 b1 n2 cord
-                  where
-                    game2 b1 n2 cord = do
-                      putStrLn (n2 ++ ", it's your turn to attack!") 
-                      cord2 <- getLine
-                      if cord2 == "Quit" || cord2 == "quit" then do main else if elem cord2 (map show (range ((1,1),(10,10)))) /= True then putStrLn "Invalid move, please try again!" >> game2 b1 n2 cord
-                        else do
-                          putStrLn ("\n        " ++ n1 ++ "'s board") >> printBoard (attack b1 (read cord2)) 
-                          if victory (attack b1 (read cord2)) 
-                            then do putStrLn (n2 ++ " Win\n") >> main
-                          else game (attack b1 (read cord2)) (attack b2 (read cord)) n1 n2 
+            if cord == "Quit" || cord == "quit" then do main else if elem cord (map show (range ((1,1),(10,10)))) /= True then putStrLn "----------Invalid move, please try again!" >> game b1 b2 n1 n2
+                else do
+                  if (attack b2 (read cord)) == b2 then putStrLn "----------You have already attacked that coordinate, please try again!" >> game b1 b2 n1 n2 else do
+                  putStrLn ("\n        " ++ n2 ++ "'s board") >> printBoard (attack b2 (read cord))
+                  if victory (attack b2 (read cord))
+                    then do putStrLn (n1 ++ " win\n") >> main            
+                  else game2 b1 n2 cord
+                    where
+                      game2 b1 n2 cord = do
+                        putStrLn (n2 ++ ", it's your turn to attack!") 
+                        cord2 <- getLine
+                        if cord2 == "Quit" || cord2 == "quit" then do main else if elem cord2 (map show (range ((1,1),(10,10)))) /= True then putStrLn "----------Invalid move, please try again!" >> game2 b1 n2 cord
+                          else do
+                            if (attack b1 (read cord2)) == b1 then putStrLn "----------You have already attacked that coordinate, please try again!" >> game2 b1 n2 cord else do
+                            putStrLn ("\n        " ++ n1 ++ "'s board") >> printBoard (attack b1 (read cord2)) 
+                            if victory (attack b1 (read cord2)) 
+                              then do putStrLn (n2 ++ " Win\n") >> main
+                            else game (attack b1 (read cord2)) (attack b2 (read cord)) n1 n2 
 
 {- playAI
    PURPOSE:      start a game versus an AI
@@ -132,22 +134,22 @@ SIDE EFFECTS: None
               putStrLn (n1 ++ ", it's your turn to attack!\nIf you want to see your board before making your move, type Show")
               cord <- getLine
               if cord == "Show" || cord == "show" then do putStrLn ("\n        " ++ n1 ++ "'s board") >> printBoard b1 >> game b1 b2 n1 else 
-                if cord == "Quit" || cord == "quit" then do main else if elem cord (map show (range ((1,1),(10,10)))) /= True then putStrLn "Invalid move, please try again!" >> game b1 b2 n1
+                if cord == "Quit" || cord == "quit" then do main else if elem cord (map show (range ((1,1),(10,10)))) /= True then putStrLn "----------Invalid move, please try again!" >> game b1 b2 n1
                   else do
-                    putStrLn ("\n        " ++ "Computer's board")
-                    printBoard (attack b2 (read cord)) 
-                    if victory (attack b2 (read cord))
-                      then do putStrLn (n1 ++ " win\n") >> main            
-                    else do
-                      computerCordX <- randomRIO (1,10)
-                      computerCordY <- randomRIO (1,10)
-                      putStrLn ("\nComputer Attacked " ++ "("++ (show computerCordX)++","++ (show computerCordY)++")\n" ) 
-                      if victory (attack b1 (computerCordX, computerCordY)) 
-                        then do putStrLn ("Computer Wins\n") >> printBoard (attack b1 (computerCordX, computerCordY)) >> main
-                        else game (attack b1 (computerCordX, computerCordY)) (attack b2 (read cord)) n1
-
-
-              
+                    if (attack b2 (read cord)) == b2 then putStrLn "----------You have already attacked that coordinate, please try again!" >> game b1 b2 n1 else do
+                      putStrLn ("\n        " ++ "Computer's board")
+                      printBoard (attack b2 (read cord)) 
+                      if victory (attack b2 (read cord))
+                        then do putStrLn (n1 ++ " win\n") >> main            
+                      else do
+                        computerCordX <- randomRIO (1,10)
+                        computerCordY <- randomRIO (1,10)
+                        putStrLn ("\nComputer Attacked " ++ "("++ (show computerCordX)++","++ (show computerCordY)++")\n" ) 
+                        if victory (attack b1 (computerCordX, computerCordY)) 
+                          then do putStrLn ("Computer Wins\n") >> printBoard (attack b1 (computerCordX, computerCordY)) >> main
+                          else game (attack b1 (computerCordX, computerCordY)) (attack b2 (read cord)) n1
+                          
+                          
 {- randomBoardGen
    PURPOSE:  generates the board used by the AI
    PRE:      True
@@ -292,6 +294,8 @@ victory b = if (length (filter (== Alive) (sortAlive b))) == 0 then True else Fa
 attack :: Board -> Cord -> Board
 attack (x:xs) (a,b)
   | getCord (a,b) (x:xs)        == False = (x:xs)
+  | (a,b) == (fst x) && (snd x) == Dead  = ((a,b), Dead) : xs
+  | (a,b) == (fst x) && (snd x) == Miss  = ((a,b), Miss) : xs
   | (a,b) == (fst x) && (snd x) == Empty = ((a,b), Miss) : xs
   | (a,b) == (fst x) && (snd x) == Alive = ((a,b), Dead) : xs
   | otherwise = (x : attack xs (a,b))
