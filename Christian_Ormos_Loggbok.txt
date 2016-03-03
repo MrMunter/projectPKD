@@ -17,3 +17,5 @@ Loggbok – Christian Ormos
 •	29/02 8h Rapporten börjar ta form. coding convention och buggsökning.
 •	01/03 1h Möte med Dave Clark angående projektet.
 •	01/03 8h Programmerande. Skrivit test cases till funktioner samt bugfix. Skrev till fler funktioner som hanterar exceptions. Rapportskr            ivning och coding convention.
+02/03 5h coding convention.
+03/03 7h rapport.
