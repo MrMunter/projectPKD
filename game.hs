@@ -5,32 +5,34 @@ import System.Random
 import Control.Monad
 
 
-{- REPRESENTATION CONVENTION: ... description of how the datatype represents data ...
-   REPRESENTATION INVARIANT:  ... requirements on elements of the datatype that the code preserves at all times ...
+{- REPRESENTATION CONVENTION: Represent the coordinates the ship is positioned at
+   REPRESENTATION INVARIANT:  A valid board
 -}
- 
 data Ship = Ship5 (Cord,Cord) | Ship4 (Cord,Cord) | Ship3 (Cord,Cord)  | Ship2 (Cord,Cord)
 
-{- REPRESENTATION CONVENTION: ... description of how the datatype represents data ...
-   REPRESENTATION INVARIANT:  ... requirements on elements of the datatype that the code preserves at all times ...
+{- REPRESENTATION CONVENTION: Represent the statement of a square 
+   REPRESENTATION INVARIANT:  True
 -}
- 
 data Square = Empty | Alive | Dead | Miss deriving (Eq, Show)
 
+{- REPRESENTATION CONVENTION: Represent a board with all the cordinates 
+   REPRESENTATION INVARIANT:  True
+ -}
 type Board = [(Cord, Square)]
+
+{- REPRESENTATION CONVENTION: Represent the positions of a square
+   REPRESENTATION INVARIANT:  each element of the tuple >= 1 
+ -}
 type Cord = (Int,Int)
-type BoardSize = (Int, Int)
 
 
 
 
 
 {- main
-   PURPOSE:  Starts the program
+   PURPOSE:  run the game
    PRE:      True
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+   POST:     menu
 -}
 
 main :: IO ()
@@ -38,13 +40,15 @@ main = do
     menu
     
 {- menu
-   PURPOSE:  ... high level description of purpose of function
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
--}  
+   PURPOSE:  To choose what you want to do in the game
+   PRE:      None
+   EXAMPLES: ~~~~~~~~~~~BATTLESHIPS~~~~~~~~~~~
 
+             1. Play with a friend
+             2. Play against the computer
+             3. Read rules
+             4. Quit
+-}  
 
 menu :: IO ()
 menu = do
@@ -62,11 +66,10 @@ menu = do
             else menu
                     
 {- play
-   PURPOSE:  Start a multiplayer game for 2 persons
-   PRE:      True
-   POST:     Returns you to the menu by calling main
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+   PURPOSE:      start a multiplayer game for 2 persons
+   PRE:          None
+   POST:         returns you to the menu by calling main
+   SIDE EFFECTS: None
 -}
 
 play :: IO ()
@@ -80,6 +83,12 @@ play = do
     board2 <- boardSize2
     game board1 board2 name1 name2
       where 
+{- game
+PURPOSE:      runs the multiplayermode
+PRE:          None
+POST:         return you to the menu by calling main
+SIDE EFFECTS: None
+-}        
         game b1 b2 n1 n2 = do 
             putStrLn (n1 ++ " , it's your turn to attack!")
             cord <- getLine
@@ -101,11 +110,10 @@ play = do
                           else game (attack b1 (read cord2)) (attack b2 (read cord)) n1 n2 
 
 {- playAI
-   PURPOSE:  Start a game versus an AI controlled opponent
-   PRE:      True
-   POST:     Returns you to the menu by calling main
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+   PURPOSE:      start a game versus an AI
+   PRE:          None
+   POST:         returns you to the menu by calling main
+   SIDE EFFECTS: None
 -}
 playAI :: IO ()
 playAI = do 
@@ -117,6 +125,13 @@ playAI = do
 
       game board1 board2 name1
         where 
+{- game b1 b2 n1
+PURPOSE:      Runs a single player game against the computer
+PRE:          True
+POST:         returns you to the menu by calling main
+SIDE EFFECTS: None
+-}  
+          
           game b1 b2 n1 = do 
               putStrLn (n1 ++ ", it's your turn to attack!\nIf you want to see your board before making your move, type Show")
               cord <- getLine
@@ -199,11 +214,8 @@ rules = do
    PURPOSE:  to get the first persons name
    PRE:      True
    POST:     a string saved in name1 
-   EXAMPLES: "What is the name of player 1?"
-             name1 <- Zlatan
-             print name1
-             Zlatan
 -}
+
 inputName1 :: IO String
 inputName1 = do 
                 putStrLn "What is the name of player 1?"
@@ -214,11 +226,8 @@ inputName1 = do
    PURPOSE:  to get the second persons name
    PRE:      True
    POST:     a string saved in name2 
-   EXAMPLES: What is the name of player 2?
-             name2 <- Balotelli
-             print name2
-             Balotelli
--}     
+-}
+
 inputName2 :: IO String
 inputName2 = do
                 putStrLn "What is the name of player 2?"
@@ -236,7 +245,7 @@ inputName2 = do
              Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))
              ((5,3),(5,6))
              Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))
-             ((6,3),(6,7)) =
+             ((6,3),(6,7)) saves a board that looks like this in boardSize1
              
  _  _  _  _  _  _  _  _  _  _
 |_||_||_||_||_||_||_||_||_||_|
@@ -250,6 +259,7 @@ inputName2 = do
 |_||_||_||_||_||_||_||_||_||_|
 |_||_||_||_||_||_||_||_||_||_|
 -}
+
 boardSize1 :: IO Board
 boardSize1 = do 
                 putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
@@ -277,7 +287,7 @@ boardSize1 = do
              Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))
              ((5,3),(5,6))
              Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))
-             ((6,3),(6,7)) =
+             ((6,3),(6,7)) saves a board that looks like this in boardSize2
              
  _  _  _  _  _  _  _  _  _  _
 |_||_||_||_||_||_||_||_||_||_|
@@ -291,6 +301,7 @@ boardSize1 = do
 |_||_||_||_||_||_||_||_||_||_|
 |_||_||_||_||_||_||_||_||_||_|
 -}
+
 boardSize2 :: IO Board
 boardSize2 = do 
                 putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
@@ -313,7 +324,7 @@ boardSize2 = do
    POST:     True if no Alive statement. Else False
    EXAMPLES: victory [((1,1),Alive),((1,2),Alive),((2,1),Empty),((2,2),Empty)] = False
              victory [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)] = True
--}        
+-}         
 victory :: Board -> Bool
 victory b = if (length (filter (== Alive) (sortAlive b))) == 0 then True else False
     where 
