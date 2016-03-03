@@ -34,7 +34,6 @@ type Cord = (Int,Int)
    PRE:      True
    POST:     menu
 -}
-
 main :: IO ()
 main = do 
     menu
@@ -49,7 +48,6 @@ main = do
              3. Read rules
              4. Quit
 -}  
-
 menu :: IO ()
 menu = do
     putStrLn "\n~~~~~~~~~~~BATTLESHIPS~~~~~~~~~~~\n"
@@ -71,7 +69,6 @@ menu = do
    POST:         returns you to the menu by calling main
    SIDE EFFECTS: None
 -}
-
 play :: IO ()
 play = do
 
@@ -384,7 +381,8 @@ changedBoard (b:bs) (x:xs) aux square
    PRE:          (b:bs) is not empty
    POST:         (b:bs) with the Squares of Cords (x->x1, y->y1) changed to Alive  
    SIDE EFFECTS: The function does not check if the ship is inside the board. 
-   EXAMPLES:     placeShip (Ship3 ((1,1),(1,3))) [((1,1),Empty),((1,2),Empty),((1,3),Empty),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),                      ((3,3),Empty)] = [((1,1),Alive),((1,2),Alive),((1,3),Alive),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)]
+   EXAMPLES:     placeShip (Ship3 ((1,1),(1,3))) [((1,1),Empty),((1,2),Empty),((1,3),Empty),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)] =
+   						   		                 [((1,1),Alive),((1,2),Alive),((1,3),Alive),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)]
 -}
 placeShip :: Ship -> Board -> Board
 placeShip (Ship2 ((x,y),(x1,y1))) (b:bs) = changedBoard (b:bs) [(x,y),(x1,y1)] [] Alive
@@ -468,24 +466,21 @@ getCord (x,y) (b:bs)
   | (x,y) == fst b = True
   | otherwise = getCord (x,y) bs
 
-{- validShip Ship 
-   PURPOSE:  check if the ship is inside the board
-   PRE:      True
-   POST:     if tuple (x,c) is in b then True. Else False
-   EXAMPLES: validShip (Ship2 ((1,1),(1,2))) ([((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)]) = True
-             validShip (Ship2 ((1,6),(1,7))) ([((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)]) = False
--}
-validShip :: Ship -> Board -> Bool
-validShip (Ship2 (x,c))  b = if (getCord x b) == True && (getCord c b) == True then True else False 
-validShip (Ship3 (x,c))  b = if (getCord x b) == True && (getCord c b) == True then True else False 
-validShip (Ship4 (x,c))  b = if (getCord x b) == True && (getCord c b) == True then True else False 
-validShip (Ship5 (x,c))  b = if (getCord x b) == True && (getCord c b) == True then True else False 
 
 {- printBoard (b:bs)
    PURPOSE:  print the board
    PRE:      boardsize 10x10
    POST:     a 10x10 size board printed in ghci
-   EXAMPLES: printBoard ([((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),((1,2),Empty),((2,2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3),Empty),((10,3),Empty),((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Empty),((6,5),Empty),((7,5),Empty),((8,5),Empty),((9,5),Empty),((10,5),Empty),((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Empty),((8,6),Empty),((9,6),Empty),((10,6),Empty),((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) = 
+   EXAMPLES: printBoard ([((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),
+   						((1,2),Empty),((2,2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),
+   						((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3),Empty),((10,3),Empty),
+   						((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),
+   						((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Empty),((6,5),Empty),((7,5),Empty),((8,5),Empty),((9,5),Empty),((10,5),Empty),
+   						((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Empty),((8,6),Empty),((9,6),Empty),((10,6),Empty),
+   						((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),
+   						((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),
+   						((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),
+   						((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) = 
  _  _  _  _  _  _  _  _  _  _
 |_||_||_||_||_||_||_||_||_||_|
 |_||_||_||_||_||_||_||_||_||_|
@@ -528,27 +523,6 @@ printBoard boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattleg
       |square == Alive = putStr "|O|"
       |otherwise       = putStr "|_|"
 
-{- validShot (x:xs) (a,b) 
-   PURPOSE:  Checks if the cordinates for the shot is valid.
-   PRE:      True
-   POST:     True if (a,b) exists in (x:xs) with the Square Empty or Alive. Else False
-   EXAMPLES: validShot [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)] (2,2) = True
-             validShot [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)] (3,2) = False
-             validShot [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Dead)] (2,2) = False
--}
-validShot :: Board -> Cord -> Bool
-validShot (x:xs) (a,b) 
-  | (getCord (a,b) (x:xs)) == False = False
-  | (snd (pickCord (x:xs) (a,b))) == Dead = False
-  | (snd (pickCord (x:xs) (a,b))) == Miss = False  
-  | otherwise = True 
-    where 
-      pickCord (x:xs) (a,b) 
-        | (fst x) == (a,b) = x 
-        | otherwise = pickCord xs (a,b)
-
-
-
 
 --------------------------------------------------------------
 ----TEST CASES
@@ -559,16 +533,13 @@ test1 = TestCase $ assertEqual "makeBoard"
 
 ---- getCord
 test2 = TestCase $ assertEqual "getCord"
-           (True) ( (getCord (1,1) [((1,1), Alive)]))
+           (True) ( (getCord (1,1) [((1,1), Alive)])) 
 
----- validShot
-test3 = TestCase $ assertEqual "validShot"
-            (True) ( (validShot [((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)] (2,2))) 
 ---- victory
-test4 = TestCase $ assertEqual "victory"
+test3 = TestCase $ assertEqual "victory"
             (False) ( (victory [((1,1),Alive),((1,2),Alive),((2,1),Empty),((2,2),Empty)]))
 ---- shipNeg
-test5 = TestCase $ assertEqual "shipNeg"
+test4 = TestCase $ assertEqual "shipNeg"
             ([((1,1),Alive),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),((1,2),Empty),((2,
             2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),
             ((8,2),Empty),((9,2),Empty),((10,2),Empty),((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3
@@ -583,6 +554,22 @@ test5 = TestCase $ assertEqual "shipNeg"
             ((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) 
             (shipNeg (Ship2 ((1,1),(1,2))) (makeBoard(10,10)))
 
+---- attack
+test5 = TestCase $ assertEqual "attack"
+			([((1,1), Dead)])  ( (attack [((1,1), Alive)] (1,1))) 
+
+---- changedBoard
+test6 = TestCase $ assertEqual "changedBoard"
+			([((1,1),Alive),((1,2),Alive),((2,1),Empty),((2,2),Empty)]) ( (changedBoard ([((1,1),Empty),((1,2),Empty),((2,1),Empty),((2,2),Empty)]) [(1,1),(1,2)] [] Alive))
+
+---- placeShip
+test7 = TestCase $ assertEqual "placeShip"
+			([((1,1),Alive),((1,2),Alive),((1,3),Alive),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)])
+			( (placeShip (Ship3 ((1,1),(1,3))) [((1,1),Empty),((1,2),Empty),((1,3),Empty),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)]))
+
+---- shipPos
+test8 = TestCase $ assertEqual "shipPos"
+			([((1,1),Alive),((2,1),Empty),((1,2),Alive),((2,2),Empty)]) ( (shipPos (Ship2 ((1,1),(1,2))) [((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)]))
 
 ---- for running all the tests
-runtests = runTestTT $ TestList [test1, test2, test3, test4, test5]
+runtests = runTestTT $ TestList [test1, test2, test3, test4, test5, test6, test7, test8]
