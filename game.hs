@@ -264,18 +264,17 @@ boardSize1 :: IO Board
 boardSize1 = do 
                 putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
                 cords <- getLine
-                if (length cords) < 13 || (length cords) > 16 || (take 2 cords) /= "((" || (drop (length (cords)-2) cords) /= "))" ||  elem (show (last ((take 3 cords)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords)-2) cords)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do
+                if (length cords) < 13 || (length cords) > 16 || (take 2 cords) /= "((" || (drop (length (cords)-2) cords) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do
                 putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
                 cords2 <- getLine
-                if (length cords2) < 13 || (length cords2) > 16 || (take 2 cords2) /= "((" || (drop (length (cords2)-2) cords2) /= "))" ||  elem (show (last ((take 3 cords2)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords2)-2) cords2)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
+                if (length cords2) < 13 || (length cords2) > 16 || (take 2 cords2) /= "((" || (drop (length (cords2)-2) cords2) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
                 putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
                 cords3 <- getLine
-                if (length cords3) < 13 || (length cords3) > 16 || (take 2 cords3) /= "((" || (drop (length (cords3)-2) cords3) /= "))" ||  elem (show (last ((take 3 cords3)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords3)-2) cords3)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
+                if (length cords3) < 13 || (length cords3) > 16 || (take 2 cords3) /= "((" || (drop (length (cords3)-2) cords3) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
                 putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
                 cords4 <- getLine
-                if (length cords4) < 13 || (length cords4) > 16 || (take 2 cords4) /= "((" || (drop (length (cords4)-2) cords4) /= "))" ||  elem (show (last ((take 3 cords4)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords4)-2) cords4)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
+                if (length cords4) < 13 || (length cords4) > 16 || (take 2 cords4) /= "((" || (drop (length (cords4)-2) cords4) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
                 if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4))     (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2))  (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize1
-
 {- boardSize2
    PURPOSE:  place out ships from input
    PRE:      correct format of the coordinates
@@ -306,18 +305,17 @@ boardSize2 :: IO Board
 boardSize2 = do 
                 putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
                 cords <- getLine
-                if (length cords) < 13 || (length cords) > 16 || (take 2 cords) /= "((" || (drop (length (cords)-2) cords) /= "))" ||  elem (show (last ((take 3 cords)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords)-2) cords)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do
+                if (length cords) < 13 || (length cords) > 16 || (take 2 cords) /= "((" || (drop (length (cords)-2) cords) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do
                 putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
                 cords2 <- getLine
-                if (length cords2) < 13 || (length cords2) > 16 || (take 2 cords2) /= "((" || (drop (length (cords2)-2) cords2) /= "))" ||  elem (show (last ((take 3 cords2)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords2)-2) cords2)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
+                if (length cords2) < 13 || (length cords2) > 16 || (take 2 cords2) /= "((" || (drop (length (cords2)-2) cords2) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
                 putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
                 cords3 <- getLine
-                if (length cords3) < 13 || (length cords3) > 16 || (take 2 cords3) /= "((" || (drop (length (cords3)-2) cords3) /= "))" ||  elem (show (last ((take 3 cords3)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords3)-2) cords3)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
+                if (length cords3) < 13 || (length cords3) > 16 || (take 2 cords3) /= "((" || (drop (length (cords3)-2) cords3) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
                 putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
                 cords4 <- getLine
-                if (length cords4) < 13 || (length cords4) > 16 || (take 2 cords4) /= "((" || (drop (length (cords4)-2) cords4) /= "))" ||  elem (show (last ((take 3 cords4)))) (map show (range (0,9))) /= True || elem (show (head ((drop (length (cords4)-2) cords4)))) (map show (range (1,10))) then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
-                if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4))     (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2))  (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize2
-
+                if (length cords4) < 13 || (length cords4) > 16 || (take 2 cords4) /= "((" || (drop (length (cords4)-2) cords4) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
+                if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4))     (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2))  (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Invalid ship positions, please try again!" >> boardSize2
 {- victory b
    PURPOSE:  See if any player have won
    PRE:      True
