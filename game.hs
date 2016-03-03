@@ -261,7 +261,7 @@ boardSize = do
                 putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
                 cords4 <- getLine
                 if (length cords4) < 13 || (length cords4) > 16 || (take 2 cords4) /= "((" || (drop (length (cords4)-2) cords4) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize else do                
-                if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4))     (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2))  (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize
+                if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4))     (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2))  (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "One or more ships had invalid placing, please try again!" >> boardSize
 
 {- victory b
    PURPOSE:  See if any player have won
