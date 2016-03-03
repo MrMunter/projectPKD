@@ -1,0 +1,10 @@
+25/02 4-6h : Gick med i gruppen. Möte med handledaren Henrik. Gick igenom projektet för att få en bra syn på vad som gjorts/hur det gjorts och vad som var kvar att implementeras.
+26/02 6h : Började få fram en funktion som kan göra om spelplanen från en lista till en grafisk spelplan i ASCII form.
+27/02 6h : Fått ett i princip fungerande spel, fortfarande mycket småfel som måste fixas så spelet inte crashar om man skriver in inputs i fel format. Programmering av en AI var det vi la ner mest tid på.
+28/02 5h : Blev klar med funktionen som kan skriva ut spelplanen i ASCII, skapade en meny för spelet.
+29/02 8h : Rapporten och coding convention börjas skrivas och blir näst intill klara, finslipning kvarstår samt ändringar om koden ändras.
+01/03 10h : Möte med Dave Clark. Försökte fixa exceptions som uppstod vid fel inputs av spelaren. Löste attackfunktionen så den inte returnerar ett exception vid fel inmatning, la till funktioner för att göra det enklare för spelaren medan dem spelar (tex quit). Fixade AI funktionen så det ser snyggare ut när man spelar.
+02/03 4h : Satt och försökte lösa problemet med exceptions när man placerar ut sina skepp, fungerar halvt som halvt.
+03/03 6h : Finslipar rapporten, coding convention, testcases samt koden.
+
+
