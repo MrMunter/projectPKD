@@ -1,4 +1,4 @@
-Loggbok Victor Munthe
+Logbok Victor Munthe
 
 
 15/02 
@@ -43,4 +43,14 @@ Loggbok Victor Munthe
 5h Vi valde att bygga en spelplan i ASCII istället för grafiskt. Den är nu klar.
 
 29/02
-7h Mestadels coding convention men fortsatta även med hjälpfunktionerna.
+7h Mestadels coding convention men fortsatte även med hjälpfunktionerna.
+
+01/03 
+1h möte med Dave. 
+10h Fixat buggar och skrivit rapport.
+
+02/03
+5h rapport
+
+03/03 
+7h Rensat i koden och fixat till dens utseende. Skrivit klart rapporten.
