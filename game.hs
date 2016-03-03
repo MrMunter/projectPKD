@@ -26,9 +26,6 @@ type Board = [(Cord, Square)]
 type Cord = (Int,Int)
 
 
-
-
-
 {- main
    PURPOSE:  run the game
    PRE:      True
@@ -155,7 +152,16 @@ SIDE EFFECTS: None
    PURPOSE:  generates the board used by the AI
    PRE:      True
    POST:     the AI board with ships placed at random coordinates
-   EXAMPLES: randomBoardGen = [((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),((1,2),Empty),((2,2),Empty),((3,2),Alive),((4,2),Alive),((5,2),Alive),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Alive),((8,3),Alive),((9,3),Alive),((10,3),Alive),((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Alive),((6,5),Alive),((7,5),Alive),((8,5),Alive),((9,5),Alive),((10,5),Empty),((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Alive),((8,6),Alive),((9,6),Empty),((10,6),Empty),((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]
+   EXAMPLES: randomBoardGen = [((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),
+   							   ((1,2),Empty),((2,2),Empty),((3,2),Alive),((4,2),Alive),((5,2),Alive),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),
+   							   ((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Alive),((8,3),Alive),((9,3),Alive),((10,3),Alive),
+   							   ((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),
+   							   ((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Alive),((6,5),Alive),((7,5),Alive),((8,5),Alive),((9,5),Alive),((10,5),Empty),
+   							   ((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Alive),((8,6),Alive),((9,6),Empty),((10,6),Empty),
+   							   ((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),
+   							   ((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),
+   							   ((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),
+   							   ((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]
 -}
 randomBoardGen :: IO Board
 randomBoardGen = do
@@ -213,7 +219,6 @@ rules = do
    PRE:      True
    POST:     a string saved in name1 
 -}
-
 inputName :: IO String
 inputName = do 
                 name1 <- getLine
@@ -246,7 +251,6 @@ inputName = do
 |_||_||_||_||_||_||_||_||_||_|
 |_||_||_||_||_||_||_||_||_||_|
 -}
-
 boardSize :: IO Board
 boardSize = do 
                 putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
@@ -296,9 +300,8 @@ attack (x:xs) (a,b)
 {- makeBoard (x,y)
    PURPOSE:  Makes a board
    PRE:      x & y is positive Integers 
-   POST:     List of tuples with all combinations 1 -> x and 1 -> y and Empty as second argument.          [((x,y), Empty)] 
-   EXAMPLES: makeBoard (3,3) = [((1,1),Empty),((1,2),Empty),((1,3),Empty),((2,1),Empty),
-   ((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)]
+   POST:     List of tuples with all combinations 1 -> x and 1 -> y and Empty as second argument. [((x,y), Empty)] 
+   EXAMPLES: makeBoard (3,3) = [((1,1),Empty),((1,2),Empty),((1,3),Empty),((2,1),Empty),((2,2),Empty),((2,3),Empty),((3,1),Empty),((3,2),Empty),((3,3),Empty)]
              makeBoard (1,1) = [((1,1),Empty)]
 -}
 makeBoard :: Cord -> Board
@@ -376,7 +379,7 @@ shipPos (Ship5 ((x,y),(x1,y1))) (b:bs)
   | otherwise = (b:bs)
 
 {- shipNeg Ship (b:bs)
-   PURPOSE: placeShip calls this function when you place a ship with the first cord "larger" then the second, then Check if the ship is horistantal or vertical and place it on a board.
+   PURPOSE: placeShip calls this function when you place a ship with the first cord "larger" then the second, then checks if the ship is horistantal or vertical and place it on a board.
    PRE:  x1 < x || y1 < y && x == x1 || y == y1
    POST: Ship placed Vertical if y1 < y, Ship placed horisontal if x1 < x. In (b:bs)
    EXAMPLES: shipNeg (Ship2 ((1,2),(1,1))) [((1,1),Empty),((2,1),Empty),((1,2),Empty),((2,2),Empty)] = [((1,1),Alive),((2,1),Empty),((1,2),Alive),((2,2),Empty)]
@@ -421,7 +424,16 @@ getCord (x,y) (b:bs)
    PURPOSE:  print the board
    PRE:      that boardsize = a Board containing 100 elements, in other words a 10x10 sized Board
    POST:     a 10x10 size graphical-board printed in ghci
-   EXAMPLES: printBoard ([((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),((1,2),Empty),((2,2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3),Empty),((10,3),Empty),((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Empty),((6,5),Empty),((7,5),Empty),((8,5),Empty),((9,5),Empty),((10,5),Empty),((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Empty),((8,6),Empty),((9,6),Empty),((10,6),Empty),((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) = 
+   EXAMPLES: printBoard ([((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),
+   						  ((1,2),Empty),((2,2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),
+   						  ((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3),Empty),((10,3),Empty),
+   						  ((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),
+   						  ((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Empty),((6,5),Empty),((7,5),Empty),((8,5),Empty),((9,5),Empty),((10,5),Empty),
+   						  ((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Empty),((8,6),Empty),((9,6),Empty),((10,6),Empty),
+   						  ((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),
+   						  ((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),
+   						  ((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),
+   						  ((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) = 
  _  _  _  _  _  _  _  _  _  _
 |_||_||_||_||_||_||_||_||_||_|
 |_||_||_||_||_||_||_||_||_||_|
@@ -441,7 +453,16 @@ printBoard boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattleg
    PURPOSE:  To construct the graphic-board from a Board
    PRE:  True 
    POST: a 10x10 size graphical-board
-   EXAMPLES: printBattleground ([((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),((1,2),Empty),((2,2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3),Empty),((10,3),Empty),((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Empty),((6,5),Empty),((7,5),Empty),((8,5),Empty),((9,5),Empty),((10,5),Empty),((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Empty),((8,6),Empty),((9,6),Empty),((10,6),Empty),((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) 1 10= 
+   EXAMPLES: printBattleground ([((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),
+   								 ((1,2),Empty),((2,2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),
+   								 ((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3),Empty),((10,3),Empty),
+   								 ((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),
+   								 ((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Empty),((6,5),Empty),((7,5),Empty),((8,5),Empty),((9,5),Empty),((10,5),Empty),
+   								 ((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Empty),((8,6),Empty),((9,6),Empty),((10,6),Empty),
+   								 ((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),
+   								 ((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),
+   								 ((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),
+   								 ((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) =
  _  _  _  _  _  _  _  _  _  _
 |_||_||_||_||_||_||_||_||_||_|
 |_||_||_||_||_||_||_||_||_||_|
