@@ -48,3 +48,6 @@ Möte med Dave Clarke, rapportskrivande, mer coding convention, fixat kod.
 
 02/03 (5h)
 Gjorde klart coding convention helt, skrivit massa i rapporten
+
+03/03 (7h)
+Finslipat kod, gjort klart rapporten. 
