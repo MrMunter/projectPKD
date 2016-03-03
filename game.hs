@@ -499,7 +499,6 @@ printBoard boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattleg
     printAttack square
       |square == Dead  = putStr "|x|"
       |square == Miss  = putStr "|#|"
-      |square == Alive = putStr "|O|"
       |otherwise       = putStr "|_|"
 
 
