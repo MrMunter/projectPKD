@@ -3,6 +3,7 @@ import Data.Array
 import Test.HUnit
 import System.Random
 import Control.Monad
+import System.Console.ANSI
 
 
 {- REPRESENTATION CONVENTION: Represent the coordinates the ship is positioned at
@@ -74,11 +75,13 @@ play = do
     name2 <- inputName
     putStrLn (name1 ++ " it's your turn to place your ships!")
     board1 <- boardSize
+    clearScreen
     putStrLn (name2 ++ " it's your turn to place your ships!")
     board2 <- boardSize
+    clearScreen
     putStrLn ("If you want to exit the game at any point just type Quit!")
     game board1 board2 name1 name2
-      where 
+      where  
 {- game
 PURPOSE:      runs the multiplayermode
 PRE:          None
