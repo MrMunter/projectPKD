@@ -71,13 +71,15 @@ menu = do
 -}
 play :: IO ()
 play = do
-
-    name1 <- inputName1
-    name2 <- inputName2
-    putStrLn (name1 ++ " it's your turn to place your ships")
-    board1 <- boardSize1
-    putStrLn (name2 ++ " it's your turn to place your ships")
-    board2 <- boardSize2
+    putStrLn "What is the name of player 1?"
+    name1 <- inputName
+    putStrLn "What is the name of player 2?"
+    name2 <- inputName
+    putStrLn (name1 ++ " it's your turn to place your ships!")
+    board1 <- boardSize
+    putStrLn (name2 ++ " it's your turn to place your ships!")
+    board2 <- boardSize
+    putStrLn ("If you want to exit the game at any point just type Quit!")
     game board1 board2 name1 name2
       where 
 {- game
@@ -87,7 +89,7 @@ POST:         return you to the menu by calling main
 SIDE EFFECTS: None
 -}        
         game b1 b2 n1 n2 = do 
-            putStrLn (n1 ++ " , it's your turn to attack!")
+            putStrLn (n1 ++ ", it's your turn to attack!")
             cord <- getLine
             if cord == "Quit" || cord == "quit" then do main else if elem cord (map show (range ((1,1),(10,10)))) /= True then putStrLn "Invalid move, please try again!" >> game b1 b2 n1 n2
               else do
@@ -114,11 +116,11 @@ SIDE EFFECTS: None
 -}
 playAI :: IO ()
 playAI = do 
-
-      name1  <- inputName1
-      board1 <- boardSize1
+      putStrLn "What is the name of the player?"
+      name1  <- inputName
+      board1 <- boardSize
       board2 <- randomBoardGen
-
+      putStrLn ("If you want to exit the game at any point just type Quit!")
 
       game board1 board2 name1
         where 
@@ -132,18 +134,17 @@ SIDE EFFECTS: None
           game b1 b2 n1 = do 
               putStrLn (n1 ++ ", it's your turn to attack!\nIf you want to see your board before making your move, type Show")
               cord <- getLine
-              if cord == "Show" || cord == "show" then do printBoard b1 >> game b1 b2 n1 else 
+              if cord == "Show" || cord == "show" then do putStrLn ("\n        " ++ n1 ++ "'s board") >> printBoard b1 >> game b1 b2 n1 else 
                 if cord == "Quit" || cord == "quit" then do main else if elem cord (map show (range ((1,1),(10,10)))) /= True then putStrLn "Invalid move, please try again!" >> game b1 b2 n1
                   else do
-                    putStrLn ("Computers Board")
+                    putStrLn ("\n        " ++ "Computer's board")
                     printBoard (attack b2 (read cord)) 
                     if victory (attack b2 (read cord))
                       then do putStrLn (n1 ++ " win\n") >> main            
                     else do
-                      putStrLn ("Computer Attack") 
                       computerCordX <- randomRIO (1,10)
                       computerCordY <- randomRIO (1,10)
-                      putStrLn "Computer's Board"
+                      putStrLn ("\nComputer Attacked " ++ "("++ (show computerCordX)++","++ (show computerCordY)++")\n" ) 
                       if victory (attack b1 (computerCordX, computerCordY)) 
                         then do putStrLn ("Computer Wins\n") >> printBoard (attack b1 (computerCordX, computerCordY)) >> main
                         else game (attack b1 (computerCordX, computerCordY)) (attack b2 (read cord)) n1
@@ -207,31 +208,20 @@ rules = do
          menu 
 
 
-{- inputName1
+{- inputName
    PURPOSE:  to get the first persons name
    PRE:      True
    POST:     a string saved in name1 
 -}
 
-inputName1 :: IO String
-inputName1 = do 
-                putStrLn "What is the name of player 1?"
+inputName :: IO String
+inputName = do 
                 name1 <- getLine
                 return name1
                 
-{- inputName2
-   PURPOSE:  to get the second persons name
-   PRE:      True
-   POST:     a string saved in name2 
--}
 
-inputName2 :: IO String
-inputName2 = do
-                putStrLn "What is the name of player 2?"
-                name2 <- getLine
-                return name2
                 
-{- boardSize1
+{- boardSize
    PURPOSE:  place out ships from input
    PRE:      correct format of the coordinates
    POST:     board1 with ships at locations from typed coordinates. (cords,cords2,cords3,cords4)
@@ -242,7 +232,7 @@ inputName2 = do
              Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))
              ((5,3),(5,6))
              Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))
-             ((6,3),(6,7)) saves a board that looks like this in boardSize1
+             ((6,3),(6,7)) saves a board that looks like this in boardSize
              
  _  _  _  _  _  _  _  _  _  _
 |_||_||_||_||_||_||_||_||_||_|
@@ -257,62 +247,22 @@ inputName2 = do
 |_||_||_||_||_||_||_||_||_||_|
 -}
 
-boardSize1 :: IO Board
-boardSize1 = do 
+boardSize :: IO Board
+boardSize = do 
                 putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
                 cords <- getLine
-                if (length cords) < 13 || (length cords) > 16 || (take 2 cords) /= "((" || (drop (length (cords)-2) cords) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do
+                if (length cords) < 13 || (length cords) > 16 || (take 2 cords) /= "((" || (drop (length (cords)-2) cords) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize else do
                 putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
                 cords2 <- getLine
-                if (length cords2) < 13 || (length cords2) > 16 || (take 2 cords2) /= "((" || (drop (length (cords2)-2) cords2) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
+                if (length cords2) < 13 || (length cords2) > 16 || (take 2 cords2) /= "((" || (drop (length (cords2)-2) cords2) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize else do                
                 putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
                 cords3 <- getLine
-                if (length cords3) < 13 || (length cords3) > 16 || (take 2 cords3) /= "((" || (drop (length (cords3)-2) cords3) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
+                if (length cords3) < 13 || (length cords3) > 16 || (take 2 cords3) /= "((" || (drop (length (cords3)-2) cords3) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize else do                
                 putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
                 cords4 <- getLine
-                if (length cords4) < 13 || (length cords4) > 16 || (take 2 cords4) /= "((" || (drop (length (cords4)-2) cords4) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize1 else do                
-                if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4))     (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2))  (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize1
-{- boardSize2
-   PURPOSE:  place out ships from input
-   PRE:      correct format of the coordinates
-   POST:     board2 with ships at locations from typed coordinates. (cords,cords2,cords3,cords4) 
-   EXAMPLES: Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))
-             ((1,2),(1,3))
-             Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))
-             ((2,3),(2,5))
-             Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))
-             ((5,3),(5,6))
-             Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))
-             ((6,3),(6,7)) saves a board that looks like this in boardSize2
-             
- _  _  _  _  _  _  _  _  _  _
-|_||_||_||_||_||_||_||_||_||_|
-|O||_||_||_||_||_||_||_||_||_|
-|O||O||_||_||O||O||_||_||_||_|
-|_||O||_||_||O||O||_||_||_||_|
-|_||O||_||_||O||O||_||_||_||_|
-|_||_||_||_||O||O||_||_||_||_|
-|_||_||_||_||_||O||_||_||_||_|
-|_||_||_||_||_||_||_||_||_||_|
-|_||_||_||_||_||_||_||_||_||_|
-|_||_||_||_||_||_||_||_||_||_|
--}
+                if (length cords4) < 13 || (length cords4) > 16 || (take 2 cords4) /= "((" || (drop (length (cords4)-2) cords4) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize else do                
+                if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4))     (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2))  (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Something went wrong" >> boardSize
 
-boardSize2 :: IO Board
-boardSize2 = do 
-                putStrLn "Place your ship, 2 tiles. Format ((x1,y1),(x2,y2))"
-                cords <- getLine
-                if (length cords) < 13 || (length cords) > 16 || (take 2 cords) /= "((" || (drop (length (cords)-2) cords) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do
-                putStrLn "Place your ship, 3 tiles. Format ((x1,y1),(x2,y2))"
-                cords2 <- getLine
-                if (length cords2) < 13 || (length cords2) > 16 || (take 2 cords2) /= "((" || (drop (length (cords2)-2) cords2) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
-                putStrLn "Place your ship, 4 tiles. Format ((x1,y1),(x2,y2))"
-                cords3 <- getLine
-                if (length cords3) < 13 || (length cords3) > 16 || (take 2 cords3) /= "((" || (drop (length (cords3)-2) cords3) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
-                putStrLn "Place your ship, 5 tiles. Format ((x1,y1),(x2,y2))"
-                cords4 <- getLine
-                if (length cords4) < 13 || (length cords4) > 16 || (take 2 cords4) /= "((" || (drop (length (cords4)-2) cords4) /= "))" then putStrLn "Invalid ship position, please try again!" >> boardSize2 else do                
-                if (length (filter (\x -> snd x == Alive) (placeShip (Ship5 (read cords4))     (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2))  (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))))) == 14 then return (placeShip (Ship5 (read cords4)) (placeShip (Ship4 (read cords3)) ((placeShip (Ship3 (read cords2)) (placeShip (Ship2 (read cords)) (makeBoard (10,10))))))) else putStrLn "Invalid ship positions, please try again!" >> boardSize2
 {- victory b
    PURPOSE:  See if any player have won
    PRE:      True
