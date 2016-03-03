@@ -469,18 +469,9 @@ getCord (x,y) (b:bs)
 
 {- printBoard (b:bs)
    PURPOSE:  print the board
-   PRE:      boardsize 10x10
-   POST:     a 10x10 size board printed in ghci
-   EXAMPLES: printBoard ([((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),
-   						((1,2),Empty),((2,2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),
-   						((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3),Empty),((10,3),Empty),
-   						((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),
-   						((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Empty),((6,5),Empty),((7,5),Empty),((8,5),Empty),((9,5),Empty),((10,5),Empty),
-   						((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Empty),((8,6),Empty),((9,6),Empty),((10,6),Empty),
-   						((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),
-   						((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),
-   						((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),
-   						((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) = 
+   PRE:      that boardsize = a Board containing 100 elements, in other words a 10x10 sized Board
+   POST:     a 10x10 size graphical-board printed in ghci
+   EXAMPLES: printBoard ([((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),((1,2),Empty),((2,2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3),Empty),((10,3),Empty),((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Empty),((6,5),Empty),((7,5),Empty),((8,5),Empty),((9,5),Empty),((10,5),Empty),((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Empty),((8,6),Empty),((9,6),Empty),((10,6),Empty),((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) = 
  _  _  _  _  _  _  _  _  _  _
 |_||_||_||_||_||_||_||_||_||_|
 |_||_||_||_||_||_||_||_||_||_|
@@ -497,11 +488,21 @@ printBoard :: Board -> IO()
 printBoard boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattleground boardsize 1 10)
 
 {- printBattleground  (a:xs) x y 
-   PURPOSE:  That you type in right coordinates (här skriver max)
-   PRE:  ... pre-condition on the arguments ...
-   POST: ... post-condition on the result, in terms of the arguments ...
-   SIDE EFFECTS: ... if any, including exceptions ...
-   EXAMPLES: ... especially if useful to highlight delicate issues; also consider including counter-examples ...
+   PURPOSE:  To construct the graphic-board from a Board
+   PRE:  True 
+   POST: a 10x10 size graphical-board
+   EXAMPLES: printBattleground ([((1,1),Empty),((2,1),Empty),((3,1),Empty),((4,1),Empty),((5,1),Empty),((6,1),Empty),((7,1),Empty),((8,1),Empty),((9,1),Empty),((10,1),Empty),((1,2),Empty),((2,2),Empty),((3,2),Empty),((4,2),Empty),((5,2),Empty),((6,2),Empty),((7,2),Empty),((8,2),Empty),((9,2),Empty),((10,2),Empty),((1,3),Empty),((2,3),Empty),((3,3),Empty),((4,3),Empty),((5,3),Empty),((6,3),Empty),((7,3),Empty),((8,3),Empty),((9,3),Empty),((10,3),Empty),((1,4),Empty),((2,4),Empty),((3,4),Empty),((4,4),Empty),((5,4),Empty),((6,4),Empty),((7,4),Empty),((8,4),Empty),((9,4),Empty),((10,4),Empty),((1,5),Empty),((2,5),Empty),((3,5),Empty),((4,5),Empty),((5,5),Empty),((6,5),Empty),((7,5),Empty),((8,5),Empty),((9,5),Empty),((10,5),Empty),((1,6),Empty),((2,6),Empty),((3,6),Empty),((4,6),Empty),((5,6),Empty),((6,6),Empty),((7,6),Empty),((8,6),Empty),((9,6),Empty),((10,6),Empty),((1,7),Empty),((2,7),Empty),((3,7),Empty),((4,7),Empty),((5,7),Empty),((6,7),Empty),((7,7),Empty),((8,7),Empty),((9,7),Empty),((10,7),Empty),((1,8),Empty),((2,8),Empty),((3,8),Empty),((4,8),Empty),((5,8),Empty),((6,8),Empty),((7,8),Empty),((8,8),Empty),((9,8),Empty),((10,8),Empty),((1,9),Empty),((2,9),Empty),((3,9),Empty),((4,9),Empty),((5,9),Empty),((6,9),Empty),((7,9),Empty),((8,9),Empty),((9,9),Empty),((10,9),Empty),((1,10),Empty),((2,10),Empty),((3,10),Empty),((4,10),Empty),((5,10),Empty),((6,10),Empty),((7,10),Empty),((8,10),Empty),((9,10),Empty),((10,10),Empty)]) 1 10= 
+ _  _  _  _  _  _  _  _  _  _
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
+|_||_||_||_||_||_||_||_||_||_|
 -}
   where
     printBattleground :: Board -> Int -> Int -> IO()
@@ -511,10 +512,10 @@ printBoard boardsize  = putStr" _  _  _  _  _  _  _  _  _  _\n" >> (printBattleg
       |x /= 10 = printAttack (snd a) >> printBattleground (xs) (x+1) y
             
 {- printAttack square
-   PURPOSE:  print out attacks
+   PURPOSE:  print out the state of a Square
    PRE:      True
-   POST:     print out attacked coordinates on the Board depending on statement of that cord.
-   EXAMPLES: 
+   POST:     one of the 4 stings depending on what state the input Square was
+   EXAMPLES: printAttack ((1,1),Empty) = "|_|"
 -}
     printAttack :: Square -> IO()
     printAttack square
